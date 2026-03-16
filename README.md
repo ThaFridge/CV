@@ -151,6 +151,11 @@ Zoektool voor Group Policy Objects (GPO's). Verwerkt GPMC HTML-exports met volle
 - Active Directory (ADUC)
 - Entra ID (basiskennis)
 
+### AI-integratie
+- Implementatie van AI-workers in productieomgevingen
+- AI-gestuurde automatisering
+- Prompt engineering & LLM-tooling
+
 ### Projectmanagement & Samenwerking
 - Confluence
 - Jira
