@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timothy Morgan — IT System Engineer</title>
+    <meta name="description" content="CV van Timothy Morgan — IT System Engineer met een DevOps-mindset">
+    <style>
+        :root {
+            --bg: #0f1117;
+            --bg-card: #1a1d27;
+            --bg-card-hover: #1f2233;
+            --text: #e4e4e7;
+            --text-muted: #9ca3af;
+            --accent: #60a5fa;
+            --accent-dim: #2563eb;
+            --border: #2a2d3a;
+            --tag-bg: #1e293b;
+            --tag-text: #93c5fd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: #93c5fd;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+
+        header .subtitle {
+            font-size: 1.15rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .contact-info span::before {
+            margin-right: 0.4rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .social-links a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(96, 165, 250, 0.05);
+        }
+
+        .social-links svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 2.5rem;
+        }
+
+        section h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.85rem;
+        }
+
+        /* Profile */
+        .profile p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 680px;
+        }
+
+        /* Experience */
+        .job {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 0.75rem;
+            transition: background 0.2s;
+        }
+
+        .job:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .job h3 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .job .company {
+            color: var(--accent);
+        }
+
+        .job .meta {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .job ul {
+            margin-top: 0.5rem;
+            padding-left: 1.25rem;
+        }
+
+        .job li {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.2rem;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .skill-category {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .skill-category h3 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .tag {
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 0.25rem 0.65rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        /* Languages & Other */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .info-card h3 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p,
+        .info-card li {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .info-card ul {
+            list-style: none;
+        }
+
+        .info-card li {
+            padding: 0.15rem 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .job-header {
+                flex-direction: column;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print */
+        @media print {
+            body {
+                background: white;
+                color: #111;
+            }
+
+            :root {
+                --bg: #fff;
+                --bg-card: #f9f9f9;
+                --text: #111;
+                --text-muted: #555;
+                --accent: #2563eb;
+                --border: #ddd;
+                --tag-bg: #eef;
+                --tag-text: #2563eb;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Timothy Morgan</h1>
+            <div class="subtitle">IT System Engineer</div>
+            <div class="contact-info">
+                <span>Heerlen, Limburg</span>
+                <span>mail@timothymorgan.nl</span>
+            </div>
+            <div class="social-links">
+                <a href="https://github.com/ThaFridge" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/timothy-morgan-nl/" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    LinkedIn
+                </a>
+            </div>
+        </header>
+
+        <section class="profile">
+            <h2>Profiel</h2>
+            <p>IT System Engineer met een DevOps-mindset. Ervaren in het bouwen van geautomatiseerde infrastructuren met Docker, cloud platforms en CI/CD-principes. Gelooft in infrastructuur als code en het elimineren van handmatig werk waar mogelijk.</p>
+        </section>
+
+        <section>
+            <h2>Werkervaring</h2>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3>IT System Engineer — <span class="company">SuitIT</span></h3>
+                    <span class="meta">nov. 2025 – heden | Eindhoven | Hybride</span>
+                </div>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3>Front-end Developer & Webinfrastructuur Specialist — <span class="company">DrukHuis.com</span></h3>
+                    <span class="meta">jan. 2025 – heden | Simpelveld | Freelance</span>
+                </div>
+                <ul>
+                    <li>Opzetten van een robuuste cloudinfrastructuur die meegroeit met het platform</li>
+                    <li>Inrichten van web- en mailservers</li>
+                    <li>Deployen van Docker-based AI-workers</li>
+                    <li>Focus op snelheid, stabiliteit en schaalbaarheid zonder onnodige complexiteit</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3>IT System Engineer — <span class="company">TP</span></h3>
+                    <span class="meta">aug. 2021 – okt. 2025 | Tilburg | Hybride</span>
+                </div>
+                <ul>
+                    <li>Virtualisatie en cloud services</li>
+                    <li>Beheer van IT-infrastructuur</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3>IT Support Engineer — <span class="company">Olympia</span> (detachering)</h3>
+                    <span class="meta">feb. 2022 – sep. 2022 | Tilburg</span>
+                </div>
+                <ul>
+                    <li>IT-bedrijfsprocessen en technische ondersteuning</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3>Client Support — <span class="company">Olympia</span></h3>
+                    <span class="meta">nov. 2021 – feb. 2022 | Tilburg</span>
+                </div>
+                <ul>
+                    <li>CRM en klantcontact</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3>Customer Service Specialist — <span class="company">Olympia</span></h3>
+                    <span class="meta">aug. 2021 – nov. 2021 | Tilburg</span>
+                </div>
+                <ul>
+                    <li>Klantcontact</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3>Allround Assistant Event Coordinator — <span class="company">Neverland Festival</span></h3>
+                    <span class="meta">jul. 2018 – 2022 | Landgraaf | Freelance</span>
+                </div>
+                <ul>
+                    <li>Eventproductie, evenementencoördinatie en evenementmarketing</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3>Cloud Infrastructuur Engineer — <span class="company">Neverland Festival</span></h3>
+                    <span class="meta">mrt. 2018 – 2022 | Landgraaf | Freelance</span>
+                </div>
+                <ul>
+                    <li>Blockchain, IT-servicebeheer en IT-infrastructuurbeheer</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3>Ziggo Senior Technical Support — <span class="company">Teleperformance</span></h3>
+                    <span class="meta">feb. 2012 – feb. 2016 | Maastricht</span>
+                </div>
+            </div>
+
+            <div class="job">
+                <div class="job-header">
+                    <h3>Ziggo Technical Support — <span class="company">Teleperformance</span></h3>
+                    <span class="meta">aug. 2008 – feb. 2012 | Maastricht</span>
+                </div>
+                <ul>
+                    <li>Klantenondersteuning</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Certificeringen</h2>
+            <div class="job">
+                <div class="job-header">
+                    <h3>NSE 3: Fortinet FortiGate 7.6 Operator</h3>
+                    <span class="meta">Fortinet · okt. 2025 – okt. 2027</span>
+                </div>
+            </div>
+            <div class="job">
+                <div class="job-header">
+                    <h3>NSE 2: Technical Introduction to Cybersecurity 3.0</h3>
+                    <span class="meta">Fortinet · nov. 2025 – nov. 2027</span>
+                </div>
+            </div>
+            <div class="job">
+                <div class="job-header">
+                    <h3>Fortinet Certified Associate Cybersecurity</h3>
+                    <span class="meta">Fortinet · okt. 2025 – okt. 2027</span>
+                </div>
+            </div>
+            <div class="job">
+                <div class="job-header">
+                    <h3>Fortinet Certified Fundamentals Cybersecurity</h3>
+                    <span class="meta">Fortinet · okt. 2025 – okt. 2027</span>
+                </div>
+            </div>
+            <div class="job">
+                <div class="job-header">
+                    <h3>IGEL Foundations</h3>
+                    <span class="meta">IGEL Technology · jun. 2025 – jun. 2027</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Vaardigheden</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Besturingssystemen</h3>
+                    <div class="tags">
+                        <span class="tag">Windows Server 2012–2025</span>
+                        <span class="tag">ADUC</span>
+                        <span class="tag">GPO</span>
+                        <span class="tag">Linux (Debian/RHEL)</span>
+                        <span class="tag">macOS</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Cloud & Virtualisatie</h3>
+                    <div class="tags">
+                        <span class="tag">VMware vSphere/ESXi</span>
+                        <span class="tag">Proxmox</span>
+                        <span class="tag">AWS</span>
+                        <span class="tag">Azure</span>
+                        <span class="tag">Hyper-V</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Containers</h3>
+                    <div class="tags">
+                        <span class="tag">Docker</span>
+                        <span class="tag">Docker Compose</span>
+                        <span class="tag">Portainer</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Automatisering & Scripting</h3>
+                    <div class="tags">
+                        <span class="tag">Bash</span>
+                        <span class="tag">PowerShell</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Versiebeheer & CI/CD</h3>
+                    <div class="tags">
+                        <span class="tag">Git</span>
+                        <span class="tag">GitHub</span>
+                        <span class="tag">GitLab</span>
+                        <span class="tag">Gitea</span>
+                        <span class="tag">GitHub Actions</span>
+                        <span class="tag">GitLab CI</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Netwerken</h3>
+                    <div class="tags">
+                        <span class="tag">DNS</span>
+                        <span class="tag">DHCP</span>
+                        <span class="tag">TCP/IP</span>
+                        <span class="tag">OPNsense</span>
+                        <span class="tag">FortiGate</span>
+                        <span class="tag">WireGuard</span>
+                        <span class="tag">Nginx</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Monitoring</h3>
+                    <div class="tags">
+                        <span class="tag">Zabbix</span>
+                        <span class="tag">PRTG</span>
+                        <span class="tag">Uptime Kuma</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Identity & Access</h3>
+                    <div class="tags">
+                        <span class="tag">Active Directory</span>
+                        <span class="tag">Entra ID</span>
+                        <span class="tag">Microsoft 365</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Webdevelopment</h3>
+                    <div class="tags">
+                        <span class="tag">Laravel</span>
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">WordPress</span>
+                        <span class="tag">WooCommerce</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Overig</h3>
+                    <div class="tags">
+                        <span class="tag">Cove Backup</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Opleiding & Overig</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Opleiding</h3>
+                    <p>MBO</p>
+                </div>
+                <div class="info-card">
+                    <h3>Talen</h3>
+                    <ul>
+                        <li>Nederlands — Goed</li>
+                        <li>Engels — Goed</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>Overig</h3>
+                    <p>Rijbewijs B</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            &copy; 2026 Timothy Morgan
+        </footer>
+    </div>
+</body>
+</html>
