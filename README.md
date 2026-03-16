@@ -89,6 +89,11 @@ IT System Engineer met een DevOps-mindset en een sterke focus op cloud-infrastru
 
 Zoektool voor Group Policy Objects (GPO's). Verwerkt GPMC HTML-exports met volledige tekstzoeking, 50+ filterlabels en regex-ondersteuning. Single-file vanilla HTML/CSS/JS — geen dependencies.
 
+### Bash Server Manager *(in development)*
+[github.com/ThaFridge/Servermanager](https://github.com/ThaFridge/Servermanager)
+
+Bash-automatiseringsscript voor Ubuntu/Debian dat volledige LAMP-stack management stroomlijnt via een interactieve CLI. Beheert domeinen, databases, e-mail (Postfix/Dovecot), SSL-certificaten, FTP en security hardening. Met Cloudflare API-integratie en S3/Backblaze backups.
+
 ---
 
 ## Certificeringen
