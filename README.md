@@ -61,6 +61,11 @@ IT System Engineer met een DevOps-mindset en een sterke focus op cloud-infrastru
 ### Webdevelopment & Cloud Infrastructure Specialist — Freelance (ZZP)
 **2016 – 2021**
 
+- Bouwen en onderhouden van websites en webshops voor startups en MKB (60+ klanten)
+- WordPress/WooCommerce development en maatwerk
+- VPS-inrichting, serverbeheer en migraties
+- Opbouw van langdurige klantrelatie met DrukHuis.com, later uitgegroeid tot vaste opdrachtgever
+
 ### Ziggo Senior Technical Support — Teleperformance
 
 **feb. 2012 – feb. 2016** | Maastricht, Limburg
