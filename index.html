@@ -613,7 +613,7 @@
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 8h-1V3H6v5H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zM8 5h8v3H8V5zm8 14H8v-4h8v4zm2-4v-2H6v2H4v-4c0-.55.45-1 1-1h14c.55 0 1 .45 1 1v4h-2z"/></svg>
                     Print CV
                 </a>
-                <a href="README.md" download="Timothy_Morgan_CV.md">
+                <a href="#" onclick="downloadCV(); return false;">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                     Download CV
                 </a>
@@ -984,6 +984,33 @@
             var addr = u + '@' + d;
             el.innerHTML = '<a href="ma' + 'ilto:' + addr + '">' + addr + '</a>';
         });
+
+        function mdToTxt(md) {
+            return md
+                .replace(/^#{1,6}\s+/gm, '')           // headings
+                .replace(/\*\*([^*]+)\*\*/g, '$1')      // bold
+                .replace(/\*([^*]+)\*/g, '$1')           // italic
+                .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // links
+                .replace(/^[-*]\s+/gm, '  - ')          // list items
+                .replace(/^\|.*\|$/gm, '')               // table rows
+                .replace(/^---+$/gm, '')                 // horizontal rules
+                .replace(/\n{3,}/g, '\n\n')              // excess blank lines
+                .trim();
+        }
+
+        function downloadCV() {
+            fetch('README.md')
+                .then(function(r) { return r.text(); })
+                .then(function(md) {
+                    var txt = mdToTxt(md);
+                    var blob = new Blob([txt], { type: 'text/plain' });
+                    var a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = 'Timothy_Morgan_CV.txt';
+                    a.click();
+                    URL.revokeObjectURL(a.href);
+                });
+        }
     </script>
 </body>
 </html>
