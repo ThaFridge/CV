@@ -151,6 +151,11 @@ Zoektool voor Group Policy Objects (GPO's). Verwerkt GPMC HTML-exports met volle
 - Active Directory (ADUC)
 - Entra ID (basiskennis)
 
+### Projectmanagement & Samenwerking
+- Confluence
+- Jira
+- Scrum/Sprints
+
 ### Overig
 - Microsoft 365 (basiskennis)
 - Cove Backup

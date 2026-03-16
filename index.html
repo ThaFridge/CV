@@ -356,7 +356,7 @@
             <div class="subtitle">IT System Engineer</div>
             <div class="contact-info">
                 <span>Heerlen, Limburg</span>
-                <span>mail@timothymorgan.nl</span>
+                <span class="email" data-user="mail" data-domain="timothymorgan.nl">[email beveiligd]</span>
             </div>
             <div class="social-links">
                 <a href="https://github.com/ThaFridge" target="_blank" rel="noopener">
@@ -657,6 +657,14 @@
                     </div>
                 </div>
                 <div class="skill-category">
+                    <h3>Projectmanagement & Samenwerking</h3>
+                    <div class="tags">
+                        <span class="tag">Confluence</span>
+                        <span class="tag">Jira</span>
+                        <span class="tag">Scrum/Sprints</span>
+                    </div>
+                </div>
+                <div class="skill-category">
                     <h3>Overig</h3>
                     <div class="tags">
                         <span class="tag">Cove Backup</span>
@@ -691,5 +699,13 @@
             &copy; 2026 Timothy Morgan
         </footer>
     </div>
+    <script>
+        document.querySelectorAll('.email').forEach(function(el) {
+            var u = el.dataset.user;
+            var d = el.dataset.domain;
+            var addr = u + '@' + d;
+            el.innerHTML = '<a href="ma' + 'ilto:' + addr + '">' + addr + '</a>';
+        });
+    </script>
 </body>
 </html>
