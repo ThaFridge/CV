@@ -32,11 +32,11 @@ IT System Engineer met een DevOps-mindset en een sterke focus op cloud-infrastru
 - CVE Management & Patch Management
 
 ### Customer Service / Client Support / IT Support Engineer — Olympia
-**aug. 2021 – sep. 2022** | Tilburg, Noord-Brabant
+**aug. 2021 – sep. 2022** | Via Olympia, gedetacheerd bij TP | Tilburg, Noord-Brabant
 
-- Doorgegroeid van Customer Service naar IT Support Engineer (detachering)
+- Doorgegroeid van Customer Service naar IT Support Engineer
+- Na detachering fulltime in dienst gekomen bij TP
 - IT-bedrijfsprocessen en technische ondersteuning
-- CRM en klantcontact
 
 ### Ziggo Senior Technical Support — Teleperformance
 **feb. 2012 – feb. 2016** | Maastricht, Limburg
@@ -59,7 +59,7 @@ IT System Engineer met een DevOps-mindset en een sterke focus op cloud-infrastru
 
 - Opzetten van een robuuste cloudinfrastructuur die meegroeit met het platform
 - Inrichten van web- en mailservers
-- Deployen van Docker-based AI-workers
+- Deployen van Docker-based AI-workers (Flowise chatbots, prompt engineering)
 - Focus op snelheid, stabiliteit en schaalbaarheid zonder onnodige complexiteit
 
 ### Allround Assistant Event Coordinator — Neverland Festival
@@ -121,6 +121,7 @@ Bash-automatiseringsscript voor Ubuntu/Debian dat volledige LAMP-stack managemen
 - macOS
 
 ### Cloud & Virtualisatie
+- Citrix (on-premise beheer)
 - VMware vSphere/ESXi
 - Proxmox
 - AWS (container-based webhosting)
@@ -144,8 +145,12 @@ Bash-automatiseringsscript voor Ubuntu/Debian dat volledige LAMP-stack managemen
 ### Netwerken
 - DNS, DHCP, TCP/IP
 - OPNsense, FortiGate (basiskennis)
+- Cloudflare (DNS/WAF)
 - WireGuard VPN
 - Nginx (reverse proxy)
+- Postfix/Dovecot (DKIM, SPF, DMARC)
+- Certbot/Let's Encrypt
+- BIND, PowerDNS
 
 ### Monitoring
 - Zabbix
@@ -158,17 +163,28 @@ Bash-automatiseringsscript voor Ubuntu/Debian dat volledige LAMP-stack managemen
 
 ### AI-integratie
 - Implementatie van AI-workers in productieomgevingen
+- Flowise (chatbot workflows)
 - AI-gestuurde automatisering
 - Prompt engineering & LLM-tooling
 
 ### Projectmanagement & Samenwerking
 - Confluence
 - Jira
+- TOPdesk
+- ServiceNow
 - Scrum/Sprints
+
+### Remote Management
+- RDP, SSH, MSTSC
+- TeamViewer, AnyDesk
+- RMM
+
+### Backup
+- Cove Backup
+- Veeam
 
 ### Overig
 - Microsoft 365 (basiskennis)
-- Cove Backup
 
 ### Webdevelopment
 - Laravel
