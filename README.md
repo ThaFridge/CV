@@ -3,7 +3,7 @@
 **IT System Engineer**
 
 Heerlen, Limburg, Nederland
-cv@timothymorgan.nl | 06 — op aanvraag
+Contact via [LinkedIn](https://www.linkedin.com/in/timothy-morgan-nl/)
 [GitHub](https://github.com/ThaFridge) | [LinkedIn](https://www.linkedin.com/in/timothy-morgan-nl/)
 
 ---
