@@ -331,33 +331,270 @@
 
         /* Print */
         @media print {
-            body {
-                background: white;
-                color: #111;
+            *, *::before, *::after {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
             }
 
-            :root {
-                --bg: #fff;
-                --bg-card: #f9f9f9;
-                --text: #111;
-                --text-muted: #555;
-                --accent: #2563eb;
-                --border: #ddd;
-                --tag-bg: #eef;
-                --tag-text: #2563eb;
+            body {
+                background: white;
+                color: #222;
+                font-size: 9.5pt;
+                line-height: 1.35;
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0.5cm;
+                margin: 0;
+            }
+
+            a { color: #222; text-decoration: none; }
+
+            /* ── Header: één lijn ── */
+            header {
+                text-align: left;
+                padding: 0 0 0.4rem;
+                margin-bottom: 0.6rem;
+                border-bottom: 2pt solid #222;
+            }
+
+            header h1 {
+                font-size: 18pt;
+                margin-bottom: 0;
+                letter-spacing: 0;
+            }
+
+            header .subtitle {
+                font-size: 10pt;
+                color: #555;
+                margin-bottom: 0.3rem;
+            }
+
+            .contact-info {
+                justify-content: flex-start;
+                font-size: 8.5pt;
+                gap: 0.3rem 1rem;
+                color: #444;
+            }
+
+            .social-links {
+                justify-content: flex-start;
+                margin-top: 0.3rem;
+                gap: 0.8rem;
             }
 
             .social-links .download-btn,
             .social-links a[download] {
+                display: none !important;
+            }
+
+            .social-links a {
+                border: none;
+                padding: 0;
+                font-size: 8pt;
+                color: #444;
+            }
+
+            .social-links svg {
+                width: 10px;
+                height: 10px;
+            }
+
+            /* ── Secties ── */
+            section {
+                margin-bottom: 0.5rem;
+            }
+
+            section h2 {
+                font-size: 9pt;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: #222;
+                margin-bottom: 0.3rem;
+                padding-bottom: 0.15rem;
+                border-bottom: 0.5pt solid #999;
+            }
+
+            /* ── Profiel ── */
+            .profile p {
+                font-size: 8.5pt;
+                color: #333;
+                max-width: 100%;
+                line-height: 1.4;
+            }
+
+            /* ── Werkervaring: tabel-achtig ── */
+            .job {
+                background: none !important;
+                border: none !important;
+                border-radius: 0;
+                padding: 0.15rem 0;
+                margin-bottom: 0.15rem;
+                border-bottom: 0.5pt solid #eee !important;
+            }
+
+            .job:last-child {
+                border-bottom: none !important;
+            }
+
+            .job:hover { background: none !important; }
+
+            .job-header {
+                margin-bottom: 0.1rem;
+            }
+
+            .job h3 {
+                font-size: 8.5pt;
+                font-weight: 600;
+            }
+
+            .job .company { color: #222; }
+
+            .job .meta {
+                font-size: 7.5pt;
+                color: #666;
+            }
+
+            .job ul {
+                margin-top: 0.05rem;
+                padding-left: 1rem;
+            }
+
+            .job li {
+                font-size: 7.5pt;
+                color: #444;
+                margin-bottom: 0;
+                line-height: 1.3;
+            }
+
+            /* ── Certificeringen: horizontale lijst ── */
+            .badges-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.3rem;
+            }
+
+            .badge-card {
+                background: none !important;
+                border: 0.5pt solid #ccc !important;
+                border-radius: 3px;
+                padding: 0.2rem 0.4rem;
+                flex-direction: row;
+                align-items: center;
+                gap: 0.3rem;
+            }
+
+            .badge-card:hover { transform: none; }
+
+            .badge-icon {
+                width: 28px;
+                height: 28px;
+                margin: 0;
+                flex-shrink: 0;
+            }
+
+            .badge-name {
+                font-size: 7pt;
+                font-weight: 600;
+                text-align: left;
+                color: #222;
+            }
+
+            .badge-meta {
                 display: none;
             }
 
+            /* ── Skills: compact inline ── */
+            .skills-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.25rem;
+            }
+
+            .skill-category {
+                background: none !important;
+                border: none !important;
+                padding: 0;
+                display: inline;
+            }
+
+            .skill-category h3 {
+                display: inline;
+                font-size: 7.5pt;
+                font-weight: 700;
+                margin: 0;
+                color: #222;
+            }
+
+            .skill-category h3::after {
+                content: ": ";
+            }
+
+            .tags {
+                display: inline;
+            }
+
+            .tag {
+                display: inline;
+                background: none;
+                color: #444;
+                padding: 0;
+                font-size: 7.5pt;
+            }
+
+            .tag::after {
+                content: " · ";
+                color: #999;
+            }
+
+            .tag:last-child::after {
+                content: "";
+            }
+
+            .skill-category::after {
+                content: "";
+                display: block;
+                margin-bottom: 0.15rem;
+            }
+
+            /* ── Info cards: inline ── */
+            .info-grid {
+                display: flex;
+                gap: 1.5rem;
+            }
+
+            .info-card {
+                background: none !important;
+                border: none !important;
+                padding: 0;
+            }
+
+            .info-card h3 {
+                font-size: 7.5pt;
+                font-weight: 700;
+                margin-bottom: 0.05rem;
+            }
+
+            .info-card p,
+            .info-card li {
+                font-size: 7.5pt;
+                color: #444;
+            }
+
+            /* ── Page flow ── */
             .job, .skill-category, .badge-card, .info-card {
                 break-inside: avoid;
             }
 
-            footer {
-                display: none;
+            footer { display: none; }
+
+            @page {
+                margin: 1cm;
+                size: A4;
             }
         }
     </style>
