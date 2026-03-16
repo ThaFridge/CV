@@ -10,7 +10,7 @@ mail@timothymorgan.nl | 06 — op aanvraag
 
 ## Profiel
 
-IT System Engineer met een DevOps-mindset. Ervaren in het bouwen van geautomatiseerde infrastructuren met Docker, cloud platforms en CI/CD-principes. Gelooft in infrastructuur als code en het elimineren van handmatig werk waar mogelijk.
+IT System Engineer met een DevOps-mindset en een sterke focus op cloud-infrastructuur. Gespecialiseerd in het end-to-end opzetten van webservers, mailservers (Postfix/Dovecot), domeinconfiguratie en Cloudflare (DNS/WAF) — van concept tot productie. Bouwt geautomatiseerde, veilige infrastructuren voor kleine bedrijven en startups met een security-first aanpak. Gelooft in infrastructuur als code en het elimineren van handmatig werk waar mogelijk.
 
 ---
 
@@ -57,6 +57,9 @@ IT System Engineer met een DevOps-mindset. Ervaren in het bouwen van geautomatis
 **mrt. 2018 – 2022** | Landgraaf, Limburg | Freelance
 
 - Blockchain, IT-servicebeheer en IT-infrastructuurbeheer
+
+### Webdevelopment & Cloud Infrastructure Specialist — Freelance (ZZP)
+**2016 – 2021**
 
 ### Ziggo Senior Technical Support — Teleperformance
 
