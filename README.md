@@ -82,6 +82,15 @@ IT System Engineer met een DevOps-mindset en een sterke focus op cloud-infrastru
 
 ---
 
+## Projecten
+
+### GPO Search
+[thafridge.github.io/GPOSearch](https://thafridge.github.io/GPOSearch/)
+
+Zoektool voor Group Policy Objects (GPO's). Verwerkt GPMC HTML-exports met volledige tekstzoeking, 50+ filterlabels en regex-ondersteuning. Single-file vanilla HTML/CSS/JS — geen dependencies.
+
+---
+
 ## Certificeringen
 
 - **NSE 3: Fortinet FortiGate 7.6 Operator** — Fortinet (okt. 2025 – okt. 2027)
