@@ -19,34 +19,36 @@ IT System Engineer met een DevOps-mindset en een sterke focus op cloud-infrastru
 ### IT System Engineer — SuitIT
 **nov. 2025 – heden** | Eindhoven, Noord-Brabant | Hybride
 
+- Beheer van IT-infrastructuur voor diverse MKB-klanten (MSP)
+- Projectmatig werk: migraties, implementaties en optimalisaties
+- Monitoring, Windows Server, GPO en ticketafhandeling
+
 ### IT System Engineer — TP
 **aug. 2021 – okt. 2025** | Tilburg, Noord-Brabant | Hybride
 
-- Virtualisatie en cloud services
-- Beheer van IT-infrastructuur
+- Beheer van 40+ servers en 2.000+ eindgebruikers
+- Virtualisatie en thin client management (Citrix, ESXi, Stratodesk/IGEL)
+- Datacenterbeheer
+- CVE Management & Patch Management
 
-### Information Technology Support Engineer — Olympia (detachering)
-**feb. 2022 – sep. 2022** | Tilburg, Noord-Brabant
+### Customer Service / Client Support / IT Support Engineer — Olympia
+**aug. 2021 – sep. 2022** | Tilburg, Noord-Brabant
 
+- Doorgegroeid van Customer Service naar IT Support Engineer (detachering)
 - IT-bedrijfsprocessen en technische ondersteuning
-
-### Client Support — Olympia
-**nov. 2021 – feb. 2022** | Tilburg, Noord-Brabant
-
 - CRM en klantcontact
-
-### Customer Service Specialist — Olympia
-**aug. 2021 – nov. 2021** | Tilburg, Noord-Brabant
-
-- Klantcontact
 
 ### Ziggo Senior Technical Support — Teleperformance
 **feb. 2012 – feb. 2016** | Maastricht, Limburg
 
+- Vraagbaak en escalatiepunt voor het team
+- Onboarding en training van nieuwe medewerkers
+- Technische ondersteuning voor netwerk, TV, internet en telefonie
+
 ### Ziggo Technical Support — Teleperformance
 **aug. 2008 – feb. 2012** | Maastricht, Limburg
 
-- Klantenondersteuning
+- Technische ondersteuning voor netwerk, TV, internet en telefonie
 
 ---
 
@@ -163,3 +165,4 @@ IT System Engineer met een DevOps-mindset en een sterke focus op cloud-infrastru
 ## Overig
 
 - Rijbewijs B
+- Interesses: Homelab, open-source, (retro)gaming, tech, Lego
