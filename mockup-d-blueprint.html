@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timothy Morgan — IT System Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a1628;
+    --bg-card: #0d1b30;
+    --grid: rgba(65,140,240,0.08);
+    --grid-strong: rgba(65,140,240,0.15);
+    --fg: #c8ddf0;
+    --fg-dim: #6889a8;
+    --fg-bright: #e8f4ff;
+    --accent: #4a9eff;
+    --accent-glow: rgba(74,158,255,0.3);
+    --accent-dim: #2a6ab8;
+    --line: rgba(74,158,255,0.25);
+    --line-strong: rgba(74,158,255,0.5);
+    --border: rgba(74,158,255,0.2);
+    --badge-bg: #4a9eff;
+    --badge-fg: #0a1628;
+    --stamp: #4a9eff;
+    --corner: rgba(74,158,255,0.5);
+    --node: #4a9eff;
+    --node-glow: rgba(74,158,255,0.4);
+    --flow-line: rgba(74,158,255,0.3);
+    --shadow: rgba(0,0,0,0.3);
+  }
+
+  [data-theme="light"] {
+    --bg: #f0f2f5;
+    --bg-card: #ffffff;
+    --grid: rgba(0,0,0,0.04);
+    --grid-strong: rgba(0,0,0,0.08);
+    --fg: #1a2a3a;
+    --fg-dim: #6a7a8a;
+    --fg-bright: #0a1a2a;
+    --accent: #1a5fb4;
+    --accent-glow: rgba(26,95,180,0.15);
+    --accent-dim: #2a6ab8;
+    --line: rgba(26,95,180,0.2);
+    --line-strong: rgba(26,95,180,0.4);
+    --border: rgba(26,95,180,0.15);
+    --badge-bg: #1a5fb4;
+    --badge-fg: #ffffff;
+    --stamp: #1a5fb4;
+    --corner: rgba(26,95,180,0.35);
+    --node: #1a5fb4;
+    --node-glow: rgba(26,95,180,0.2);
+    --flow-line: rgba(26,95,180,0.2);
+    --shadow: rgba(0,0,0,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  ::selection {
+    background: var(--accent-glow);
+    color: var(--fg-bright);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Code Pro', monospace;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Blueprint grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      repeating-linear-gradient(0deg, var(--grid) 0px, var(--grid) 1px, transparent 1px, transparent 20px),
+      repeating-linear-gradient(90deg, var(--grid) 0px, var(--grid) 1px, transparent 1px, transparent 20px),
+      repeating-linear-gradient(0deg, var(--grid-strong) 0px, var(--grid-strong) 1px, transparent 1px, transparent 100px),
+      repeating-linear-gradient(90deg, var(--grid-strong) 0px, var(--grid-strong) 1px, transparent 1px, transparent 100px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Top bar ── */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    font-size: 0.7rem;
+    color: var(--fg-dim);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .topbar-left { display: flex; gap: 2rem; align-items: center; }
+
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+  }
+  .theme-toggle:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .print-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+  }
+  .print-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .topbar-actions { display: flex; gap: 0.5rem; }
+
+  /* ── Blueprint Card ── */
+  .bp-card {
+    position: relative;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    transition: box-shadow 0.3s;
+  }
+  .bp-card:hover {
+    box-shadow: 0 0 20px var(--accent-glow), inset 0 0 20px rgba(74,158,255,0.02);
+  }
+
+  /* Corner markers */
+  .bp-card::before,
+  .bp-card::after {
+    position: absolute;
+    font-size: 1.1rem;
+    color: var(--corner);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .bp-card::before {
+    content: '\250C';
+    top: -2px;
+    left: 4px;
+  }
+  .bp-card::after {
+    content: '\2510';
+    top: -2px;
+    right: 4px;
+  }
+  .bp-card .corner-bl,
+  .bp-card .corner-br {
+    position: absolute;
+    font-size: 1.1rem;
+    color: var(--corner);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .bp-card .corner-bl { content: '└'; bottom: -2px; left: 4px; }
+  .bp-card .corner-br { content: '┘'; bottom: -2px; right: 4px; }
+
+  /* ── Section titles with dimension lines ── */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+  }
+  .section-title::before {
+    content: '◁──';
+    color: var(--line-strong);
+    font-size: 0.8rem;
+  }
+  .section-title::after {
+    content: '──▷';
+    flex: 1;
+    color: var(--line-strong);
+    font-size: 0.8rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .section-title .dim-line {
+    flex: 1;
+    height: 1px;
+    background: var(--line-strong);
+    margin: 0 0.25rem;
+  }
+
+  /* ── Header / Spec Box ── */
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .spec-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--fg-dim);
+    margin-bottom: 0.15rem;
+  }
+
+  .spec-value {
+    font-size: 0.85rem;
+    color: var(--fg);
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--fg-bright);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--badge-bg);
+    color: var(--badge-fg);
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: badge-pulse 2.5s ease-in-out infinite;
+    margin-bottom: 1rem;
+  }
+
+  @keyframes badge-pulse {
+    0%, 100% { box-shadow: 0 0 5px var(--accent-glow); }
+    50% { box-shadow: 0 0 15px var(--accent-glow), 0 0 30px rgba(74,158,255,0.1); }
+  }
+
+  .header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .meta-item {
+    font-size: 0.75rem;
+    color: var(--fg-dim);
+  }
+  .meta-item span { color: var(--accent); }
+
+  .header-links { display: flex; gap: 0.75rem; margin-top: 0.75rem; }
+  .header-links a {
+    font-size: 0.7rem;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.6rem;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+  }
+  .header-links a:hover {
+    background: var(--accent);
+    color: var(--bg);
+    box-shadow: 0 0 10px var(--accent-glow);
+  }
+
+  /* Compass rose */
+  .compass {
+    width: 90px;
+    height: 90px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .compass svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ── Profile / Spec Box ── */
+  .profile-text {
+    font-size: 0.8rem;
+    color: var(--fg);
+    line-height: 1.8;
+    border-left: 2px solid var(--line-strong);
+    padding-left: 1rem;
+  }
+
+  /* ── Flowchart Experience ── */
+  .flow-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .flow-timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: repeating-linear-gradient(
+      180deg,
+      var(--flow-line) 0px,
+      var(--flow-line) 6px,
+      transparent 6px,
+      transparent 12px
+    );
+  }
+
+  .flow-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    transition: all 0.3s;
+  }
+  .flow-item:hover {
+    border-color: var(--line-strong);
+    box-shadow: 0 0 15px var(--accent-glow);
+  }
+
+  .flow-item::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--accent);
+    background: var(--bg);
+    border-radius: 50%;
+    transform: translate(0, -50%);
+    z-index: 2;
+    transition: all 0.3s;
+  }
+  .flow-item:hover::before {
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--node-glow);
+  }
+
+  .flow-item::after {
+    content: '';
+    position: absolute;
+    left: -1.1rem;
+    top: 50%;
+    width: 1.1rem;
+    height: 1px;
+    background: var(--flow-line);
+    z-index: 1;
+  }
+
+  .flow-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--fg-bright);
+    margin-bottom: 0.15rem;
+  }
+  .flow-company {
+    font-size: 0.75rem;
+    color: var(--accent);
+  }
+  .flow-meta {
+    font-size: 0.65rem;
+    color: var(--fg-dim);
+    margin-top: 0.15rem;
+  }
+  .flow-desc {
+    font-size: 0.7rem;
+    color: var(--fg-dim);
+    margin-top: 0.4rem;
+    padding-top: 0.4rem;
+    border-top: 1px dashed var(--border);
+  }
+
+  /* ── Circuit Board Skills ── */
+  .circuit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .circuit-group {
+    border: 1px solid var(--border);
+    padding: 1rem;
+    position: relative;
+    background: var(--bg-card);
+    transition: all 0.3s;
+  }
+  .circuit-group:hover {
+    border-color: var(--line-strong);
+    box-shadow: 0 0 15px var(--accent-glow);
+  }
+
+  .circuit-group-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .circuit-group-title::before {
+    content: '◆';
+    font-size: 0.5rem;
+  }
+
+  .circuit-nodes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .circuit-node {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--border);
+    color: var(--fg);
+    background: transparent;
+    position: relative;
+    transition: all 0.3s;
+    letter-spacing: 0.3px;
+  }
+  .circuit-node:hover {
+    border-color: var(--accent);
+    color: var(--fg-bright);
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+  .circuit-node::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 50%;
+    width: 4px;
+    height: 1px;
+    background: var(--flow-line);
+  }
+
+  /* ── Stamp Certifications ── */
+  .cert-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .cert-stamp {
+    border: 2px solid var(--stamp);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--stamp);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 0.5rem;
+    position: relative;
+    transition: all 0.3s;
+    line-height: 1.3;
+  }
+  .cert-stamp::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px solid var(--stamp);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+  .cert-stamp:hover {
+    box-shadow: 0 0 20px var(--accent-glow);
+    transform: rotate(-3deg) scale(1.05);
+  }
+
+  /* ── Projects ── */
+  .project-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .project-item:last-child { border-bottom: none; }
+
+  .project-node {
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--accent);
+    background: transparent;
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+  .project-item:hover .project-node {
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--node-glow);
+  }
+
+  .project-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--fg-bright);
+  }
+  .project-name a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .project-name a:hover { color: var(--accent); }
+  .project-desc {
+    font-size: 0.7rem;
+    color: var(--fg-dim);
+  }
+
+  /* ── Footer grid ── */
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .footer-section .spec-label {
+    margin-bottom: 0.5rem;
+  }
+  .footer-section .spec-value {
+    font-size: 0.75rem;
+  }
+  .footer-list {
+    list-style: none;
+    font-size: 0.75rem;
+  }
+  .footer-list li {
+    padding: 0.15rem 0;
+    color: var(--fg);
+  }
+  .footer-list li::before {
+    content: '─ ';
+    color: var(--fg-dim);
+  }
+
+  /* ── Two-column layouts ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body::before { display: none; }
+    .topbar { display: none; }
+    .bp-card { break-inside: avoid; box-shadow: none; border-color: #aaa; }
+    .bp-card:hover { box-shadow: none; }
+    body { background: #fff; color: #111; }
+    .flow-item, .circuit-group { border-color: #ccc; }
+    h1, .subtitle, .section-title, .accent, .flow-company, .circuit-group-title::before,
+    .cert-stamp { color: #1a5fb4 !important; border-color: #1a5fb4 !important; }
+    .badge { background: #1a5fb4; color: #fff; }
+    @page { margin: 1cm; }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .container { padding: 1rem; }
+    h1 { font-size: 1.3rem; }
+    .header-grid { grid-template-columns: 1fr; }
+    .compass { display: none; }
+    .two-col { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .circuit-grid { grid-template-columns: 1fr; }
+    .cert-grid { justify-content: center; }
+    .cert-stamp { width: 85px; height: 85px; font-size: 0.55rem; }
+    .topbar { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .topbar-left { flex-direction: column; gap: 0.5rem; }
+  }
+
+  @media (max-width: 480px) {
+    h1 { font-size: 1.1rem; letter-spacing: 1px; }
+    .bp-card { padding: 1rem; }
+    .flow-timeline { padding-left: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <span>DWG: TM-CV-2026 &nbsp;|&nbsp; REV: 03 &nbsp;|&nbsp; SCALE: 1:1</span>
+      <span>DATE: 2026-03-17</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="print-btn" onclick="window.print()">⎙ Print CV</button>
+      <button class="theme-toggle" id="themeToggle">☀ Whiteboard</button>
+    </div>
+  </div>
+
+  <!-- Header: Technical Specification Box -->
+  <div class="bp-card">
+    <span class="corner-bl">└</span><span class="corner-br">┘</span>
+    <div class="header-grid">
+      <div>
+        <div class="badge">● Open voor nieuwe uitdaging</div>
+        <h1>Timothy Morgan</h1>
+        <div class="subtitle">IT System Engineer</div>
+        <div class="header-meta">
+          <div class="meta-item"><span>LOC:</span> Heerlen, Limburg, Nederland</div>
+          <div class="meta-item"><span>EDU:</span> MBO</div>
+          <div class="meta-item"><span>LIC:</span> Rijbewijs B</div>
+        </div>
+        <div class="header-links">
+          <a href="https://github.com/ThaFridge" target="_blank">GitHub</a>
+          <a href="https://linkedin.com/in/timothy-morgan-nl" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+      <div class="compass">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="46" stroke="var(--line-strong)" stroke-width="1"/>
+          <circle cx="50" cy="50" r="38" stroke="var(--border)" stroke-width="0.5"/>
+          <!-- Cross hairs -->
+          <line x1="50" y1="4" x2="50" y2="96" stroke="var(--border)" stroke-width="0.5"/>
+          <line x1="4" y1="50" x2="96" y2="50" stroke="var(--border)" stroke-width="0.5"/>
+          <!-- Diagonals -->
+          <line x1="17" y1="17" x2="83" y2="83" stroke="var(--border)" stroke-width="0.3"/>
+          <line x1="83" y1="17" x2="17" y2="83" stroke="var(--border)" stroke-width="0.3"/>
+          <!-- North arrow -->
+          <polygon points="50,8 45,28 50,22 55,28" fill="var(--accent)" opacity="0.8"/>
+          <polygon points="50,8 55,28 50,22 45,28" fill="var(--accent)" opacity="0.4"/>
+          <!-- Labels -->
+          <text x="50" y="7" text-anchor="middle" fill="var(--accent)" font-size="7" font-family="Source Code Pro, monospace" font-weight="600">N</text>
+          <text x="93" y="53" text-anchor="middle" fill="var(--fg-dim)" font-size="6" font-family="Source Code Pro, monospace">E</text>
+          <text x="50" y="98" text-anchor="middle" fill="var(--fg-dim)" font-size="6" font-family="Source Code Pro, monospace">S</text>
+          <text x="7" y="53" text-anchor="middle" fill="var(--fg-dim)" font-size="6" font-family="Source Code Pro, monospace">W</text>
+          <!-- Tick marks -->
+          <line x1="50" y1="4" x2="50" y2="10" stroke="var(--accent)" stroke-width="1"/>
+          <line x1="96" y1="50" x2="90" y2="50" stroke="var(--line-strong)" stroke-width="0.5"/>
+          <line x1="50" y1="96" x2="50" y2="90" stroke="var(--line-strong)" stroke-width="0.5"/>
+          <line x1="4" y1="50" x2="10" y2="50" stroke="var(--line-strong)" stroke-width="0.5"/>
+          <!-- Center dot -->
+          <circle cx="50" cy="50" r="2" fill="var(--accent)"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile: Specification Block -->
+  <div class="bp-card">
+    <span class="corner-bl">└</span><span class="corner-br">┘</span>
+    <div class="section-title">Profiel<span class="dim-line"></span></div>
+    <div class="profile-text">
+      IT System Engineer met een DevOps-mindset en een sterke focus op cloud-infrastructuur. Gespecialiseerd in het end-to-end opzetten van webservers, mailservers (Postfix/Dovecot), domeinconfiguratie en Cloudflare (DNS/WAF) — van concept tot productie. Bouwt geautomatiseerde, veilige infrastructuren voor kleine bedrijven en startups met een security-first aanpak. Gelooft in infrastructuur als code en het elimineren van handmatig werk waar mogelijk.
+    </div>
+  </div>
+
+  <!-- Experience: Flowchart -->
+  <div class="two-col">
+    <div class="bp-card">
+      <span class="corner-bl">└</span><span class="corner-br">┘</span>
+      <div class="section-title">Werkervaring<span class="dim-line"></span></div>
+      <div class="flow-timeline">
+        <div class="flow-item">
+          <div class="flow-title">IT System Engineer</div>
+          <div class="flow-company">SuitIT</div>
+          <div class="flow-meta">nov. 2025 – heden &nbsp;|&nbsp; Eindhoven, Hybride</div>
+          <div class="flow-desc">MSP-beheer voor MKB-klanten, projectmatige migraties/implementaties/optimalisaties, monitoring, Windows Server, GPO en ticketafhandeling</div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-title">IT System Engineer</div>
+          <div class="flow-company">TP</div>
+          <div class="flow-meta">aug. 2021 – okt. 2025 &nbsp;|&nbsp; Tilburg, Hybride</div>
+          <div class="flow-desc">Beheer van 40+ servers en 2.000+ eindgebruikers, virtualisatie en thin client management (Citrix, ESXi, Stratodesk/IGEL), datacenterbeheer, CVE &amp; Patch Management</div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-title">Customer Service → IT Support Engineer</div>
+          <div class="flow-company">Olympia</div>
+          <div class="flow-meta">aug. 2021 – sep. 2022 &nbsp;|&nbsp; Via Olympia, gedetacheerd bij TP, Tilburg</div>
+          <div class="flow-desc">Doorgegroeid van Customer Service naar IT Support Engineer, na detachering fulltime in dienst gekomen bij TP</div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-title">Ziggo Senior Technical Support</div>
+          <div class="flow-company">Teleperformance</div>
+          <div class="flow-meta">feb. 2012 – feb. 2016 &nbsp;|&nbsp; Maastricht</div>
+          <div class="flow-desc">Vraagbaak en escalatiepunt, onboarding/training nieuwe medewerkers, technische ondersteuning netwerk/TV/internet/telefonie</div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-title">Ziggo Technical Support</div>
+          <div class="flow-company">Teleperformance</div>
+          <div class="flow-meta">aug. 2008 – feb. 2012 &nbsp;|&nbsp; Maastricht</div>
+          <div class="flow-desc">Technische ondersteuning voor netwerk, TV, internet en telefonie</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <!-- Freelance -->
+      <div class="bp-card">
+        <span class="corner-bl">└</span><span class="corner-br">┘</span>
+        <div class="section-title">Freelance<span class="dim-line"></span></div>
+        <div class="flow-timeline">
+          <div class="flow-item">
+            <div class="flow-title">Front-end Dev & Webinfra Specialist</div>
+            <div class="flow-company">DrukHuis.com</div>
+            <div class="flow-meta">jan. 2025 – heden &nbsp;|&nbsp; Simpelveld, Op afstand</div>
+            <div class="flow-desc">Cloudinfrastructuur die meegroeit, web- en mailservers, Docker-based AI-workers (Flowise, prompt engineering), focus op snelheid en schaalbaarheid</div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-title">Allround Assistant Event Coordinator</div>
+            <div class="flow-company">Neverland Festival</div>
+            <div class="flow-meta">jul. 2018 – 2022 &nbsp;|&nbsp; Landgraaf</div>
+            <div class="flow-desc">Eventproductie, evenementencoördinatie en evenementmarketing</div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-title">Cloud Infrastructuur Engineer</div>
+            <div class="flow-company">Neverland Festival</div>
+            <div class="flow-meta">mrt. 2018 – 2022 &nbsp;|&nbsp; Landgraaf</div>
+            <div class="flow-desc">Blockchain, IT-servicebeheer en IT-infrastructuurbeheer</div>
+          </div>
+          <div class="flow-item">
+            <div class="flow-title">Webdev & Cloud Infrastructure Specialist</div>
+            <div class="flow-company">ZZP</div>
+            <div class="flow-meta">2016 – 2021</div>
+            <div class="flow-desc">60+ klanten, WordPress/WooCommerce en maatwerk, VPS-inrichting, serverbeheer en migraties, langdurige klantrelatie met DrukHuis.com</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Projects -->
+      <div class="bp-card">
+        <span class="corner-bl">└</span><span class="corner-br">┘</span>
+        <div class="section-title">Projecten<span class="dim-line"></span></div>
+        <div class="project-item">
+          <div class="project-node"></div>
+          <div>
+            <div class="project-name"><a href="https://thafridge.github.io/GPOSearch/" target="_blank">GPO Search</a></div>
+            <div class="project-desc">Zoektool voor GPO's — GPMC HTML-exports, 50+ filterlabels, regex. Single-file vanilla HTML/CSS/JS.</div>
+          </div>
+        </div>
+        <div class="project-item">
+          <div class="project-node"></div>
+          <div>
+            <div class="project-name"><a href="https://github.com/ThaFridge/Servermanager" target="_blank">Bash Server Manager</a> <span class="project-desc" style="font-style:italic;">(in development)</span></div>
+            <div class="project-desc">Bash-automatiseringsscript voor Ubuntu/Debian, LAMP-stack management (domeinen, DB, Postfix/Dovecot, SSL, FTP), Cloudflare API, S3/Backblaze backups, security hardening</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skills: Circuit Board -->
+  <div class="bp-card">
+    <span class="corner-bl">└</span><span class="corner-br">┘</span>
+    <div class="section-title">Skills — Circuit Diagram<span class="dim-line"></span></div>
+    <div class="circuit-grid">
+      <div class="circuit-group">
+        <div class="circuit-group-title">OS</div>
+        <div class="circuit-nodes">
+          <span class="circuit-node">Win Server 12-25</span>
+          <span class="circuit-node">Win ADUC/GPO</span>
+          <span class="circuit-node">Linux Deb/RHEL</span>
+          <span class="circuit-node">macOS</span>
+        </div>
+      </div>
+      <div class="circuit-group">
+        <div class="circuit-group-title">Cloud & Virtualisatie</div>
+        <div class="circuit-nodes">
+          <span class="circuit-node">Citrix</span>
+          <span class="circuit-node">VMware ESXi</span>
+          <span class="circuit-node">Proxmox</span>
+          <span class="circuit-node">AWS / Azure</span>
+          <span class="circuit-node">Hyper-V</span>
+        </div>
+      </div>
+      <div class="circuit-group">
+        <div class="circuit-group-title">Containers</div>
+        <div class="circuit-nodes">
+          <span class="circuit-node">Docker</span>
+          <span class="circuit-node">Docker Compose</span>
+          <span class="circuit-node">Portainer</span>
+        </div>
+      </div>
+      <div class="circuit-group">
+        <div class="circuit-group-title">Scripting & Version Ctrl</div>
+        <div class="circuit-nodes">
+          <span class="circuit-node">Bash</span>
+          <span class="circuit-node">PowerShell</span>
+          <span class="circuit-node">Git/GitHub</span>
+          <span class="circuit-node">CI/CD Actions</span>
+        </div>
+      </div>
+      <div class="circuit-group">
+        <div class="circuit-group-title">Networking</div>
+        <div class="circuit-nodes">
+          <span class="circuit-node">DNS/DHCP/TCP</span>
+          <span class="circuit-node">OPNsense/Forti</span>
+          <span class="circuit-node">Cloudflare</span>
+          <span class="circuit-node">WireGuard/VPN</span>
+          <span class="circuit-node">Nginx</span>
+          <span class="circuit-node">Postfix/Dovecot</span>
+          <span class="circuit-node">Certbot/SSL</span>
+          <span class="circuit-node">BIND/PowerDNS</span>
+        </div>
+      </div>
+      <div class="circuit-group">
+        <div class="circuit-group-title">Monitoring & IAM</div>
+        <div class="circuit-nodes">
+          <span class="circuit-node">Zabbix</span>
+          <span class="circuit-node">PRTG</span>
+          <span class="circuit-node">Uptime Kuma</span>
+          <span class="circuit-node">Active Dir.</span>
+          <span class="circuit-node">Entra ID</span>
+        </div>
+      </div>
+      <div class="circuit-group">
+        <div class="circuit-group-title">AI & Automation</div>
+        <div class="circuit-nodes">
+          <span class="circuit-node">Flowise</span>
+          <span class="circuit-node">AI-workers</span>
+          <span class="circuit-node">Prompt Eng.</span>
+        </div>
+      </div>
+      <div class="circuit-group">
+        <div class="circuit-group-title">PM & Remote & Backup & Web</div>
+        <div class="circuit-nodes">
+          <span class="circuit-node">Jira/TOPdesk</span>
+          <span class="circuit-node">ServiceNow</span>
+          <span class="circuit-node">RDP/SSH/RMM</span>
+          <span class="circuit-node">Cove/Veeam</span>
+          <span class="circuit-node">Laravel</span>
+          <span class="circuit-node">HTML/CSS/JS</span>
+          <span class="circuit-node">WordPress/Woo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certifications: Stamps -->
+  <div class="bp-card">
+    <span class="corner-bl">└</span><span class="corner-br">┘</span>
+    <div class="section-title">Certificeringen<span class="dim-line"></span></div>
+    <div class="cert-grid">
+      <div class="cert-stamp">NSE 3<br>FortiGate 7.6 Operator</div>
+      <div class="cert-stamp">NSE 2<br>Cyber&shy;security 3.0</div>
+      <div class="cert-stamp">FCA<br>Cyber&shy;security</div>
+      <div class="cert-stamp">FCF<br>Cyber&shy;security</div>
+      <div class="cert-stamp">IGEL<br>Foundations</div>
+    </div>
+  </div>
+
+  <!-- Footer: Languages, Education, Interests -->
+  <div class="bp-card">
+    <span class="corner-bl">└</span><span class="corner-br">┘</span>
+    <div class="footer-grid">
+      <div class="footer-section">
+        <div class="spec-label">Talen</div>
+        <ul class="footer-list">
+          <li>Nederlands (Goed)</li>
+          <li>Engels (Goed)</li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <div class="spec-label">Opleiding</div>
+        <ul class="footer-list">
+          <li>MBO</li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <div class="spec-label">Interesses</div>
+        <ul class="footer-list">
+          <li>Homelab</li>
+          <li>Open-source</li>
+          <li>Retrogaming</li>
+          <li>Tech</li>
+          <li>Lego</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drawing info footer -->
+  <div class="topbar" style="margin-bottom: 0; margin-top: 0;">
+    <span>timothymorgan.nl</span>
+    <span>BLUEPRINT EDITION &nbsp;|&nbsp; CONFIDENTIAL</span>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  const toggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+
+  // Check system preference and stored preference
+  const stored = localStorage.getItem('bp-theme');
+  if (stored === 'light' || (!stored && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+    html.setAttribute('data-theme', 'light');
+    toggle.textContent = '☾ Blueprint';
+  }
+
+  toggle.addEventListener('click', function() {
+    const isLight = html.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      html.removeAttribute('data-theme');
+      toggle.textContent = '☀ Whiteboard';
+      localStorage.setItem('bp-theme', 'dark');
+    } else {
+      html.setAttribute('data-theme', 'light');
+      toggle.textContent = '☾ Blueprint';
+      localStorage.setItem('bp-theme', 'light');
+    }
+  });
+
+  // Listen for system changes
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e) {
+    if (!localStorage.getItem('bp-theme')) {
+      if (e.matches) {
+        html.setAttribute('data-theme', 'light');
+        toggle.textContent = '☾ Blueprint';
+      } else {
+        html.removeAttribute('data-theme');
+        toggle.textContent = '☀ Whiteboard';
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

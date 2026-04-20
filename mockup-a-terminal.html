@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timothy Morgan — IT System Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --fg: #00ff41;
+    --fg-dim: #00cc33;
+    --fg-bright: #33ff66;
+    --white: #c0c0c0;
+    --white-bright: #e0e0e0;
+    --comment: #555;
+    --accent: #00ff41;
+    --prompt: #00ff41;
+    --border: #1a3a1a;
+    --card-bg: #0f0f0f;
+    --scanline-opacity: 0.03;
+    --link: #00ff41;
+    --badge-bg: #00ff41;
+    --badge-fg: #0a0a0a;
+    --selection-bg: #00ff4133;
+  }
+
+  [data-theme="light"] {
+    --bg: #fdf6e3;
+    --fg: #b58900;
+    --fg-dim: #a07800;
+    --fg-bright: #cb9a00;
+    --white: #3a3a3a;
+    --white-bright: #1a1a1a;
+    --comment: #999;
+    --accent: #b58900;
+    --prompt: #b58900;
+    --border: #e0d8c0;
+    --card-bg: #f5efd6;
+    --scanline-opacity: 0.015;
+    --link: #b58900;
+    --badge-bg: #b58900;
+    --badge-fg: #fdf6e3;
+    --selection-bg: #b5890033;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  ::selection {
+    background: var(--selection-bg);
+    color: var(--fg-bright);
+  }
+
+  body {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    background: var(--bg);
+    color: var(--white);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Scanline overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0, var(--scanline-opacity)) 2px,
+      rgba(0,0,0, var(--scanline-opacity)) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* CRT flicker */
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    92% { opacity: 1; }
+    93% { opacity: 0.97; }
+    94% { opacity: 1; }
+  }
+  body { animation: flicker 8s infinite; }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 24px 60px;
+  }
+
+  /* Top bar */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: var(--comment);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .window-buttons {
+    display: flex;
+    gap: 8px;
+  }
+  .window-buttons span {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .btn-red { background: #ff5f57; }
+  .btn-yellow { background: #febc2e; }
+  .btn-green { background: #28c840; }
+
+  .top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* Theme toggle */
+  .theme-toggle {
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--fg-dim);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    background: transparent;
+    font-family: inherit;
+    transition: all 0.3s;
+  }
+  .theme-toggle:hover {
+    color: var(--fg-bright);
+    border-color: var(--fg-dim);
+  }
+
+  /* Print button */
+  .print-btn {
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--fg-dim);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    background: transparent;
+    font-family: inherit;
+    transition: all 0.3s;
+  }
+  .print-btn:hover {
+    color: var(--fg-bright);
+    border-color: var(--fg-dim);
+  }
+
+  /* Badge */
+  .badge {
+    display: inline-block;
+    background: var(--badge-bg);
+    color: var(--badge-fg);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    letter-spacing: 0.5px;
+    animation: badge-pulse 2s ease-in-out infinite;
+  }
+  @keyframes badge-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ASCII art name */
+  .ascii-name {
+    color: var(--fg);
+    font-size: 10px;
+    line-height: 1.15;
+    white-space: pre;
+    overflow-x: auto;
+    margin: 16px 0 8px;
+  }
+
+  /* Blinking cursor */
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: var(--fg);
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+  }
+
+  /* Prompt */
+  .prompt { color: var(--prompt); }
+  .cmd { color: var(--white-bright); }
+  .flag { color: var(--fg-dim); }
+
+  /* Section */
+  .section {
+    margin: 28px 0;
+  }
+  .section-header {
+    color: var(--fg);
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+
+  /* Divider */
+  .divider {
+    color: var(--border);
+    margin: 4px 0;
+    white-space: pre;
+    overflow: hidden;
+    font-size: 12px;
+  }
+
+  /* Neofetch-style info */
+  .neofetch {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .neofetch-art {
+    color: var(--fg);
+    font-size: 10px;
+    line-height: 1.2;
+    white-space: pre;
+    flex-shrink: 0;
+  }
+  .neofetch-info {
+    flex: 1;
+    min-width: 260px;
+  }
+  .info-line {
+    margin: 2px 0;
+    font-size: 13px;
+  }
+  .info-label {
+    color: var(--fg);
+    font-weight: 700;
+  }
+  .info-value {
+    color: var(--white);
+  }
+  .info-category {
+    color: var(--fg-bright);
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Git log style */
+  .git-entry {
+    margin: 16px 0;
+    padding-left: 20px;
+    border-left: 2px solid var(--border);
+    position: relative;
+  }
+  .git-entry::before {
+    content: '*';
+    position: absolute;
+    left: -6px;
+    top: 0;
+    color: var(--fg);
+    font-weight: 700;
+  }
+  .git-hash {
+    color: var(--fg-dim);
+    font-size: 12px;
+  }
+  .git-date {
+    color: var(--comment);
+    font-size: 12px;
+  }
+  .git-subject {
+    color: var(--white-bright);
+    font-weight: 500;
+  }
+  .git-body {
+    color: var(--white);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .git-tag {
+    display: inline-block;
+    border: 1px solid var(--fg-dim);
+    color: var(--fg);
+    font-size: 11px;
+    padding: 0 6px;
+    margin-left: 6px;
+  }
+
+  /* Projects */
+  .project-entry {
+    margin: 8px 0;
+    font-size: 13px;
+  }
+  .project-entry a {
+    color: var(--link);
+    text-decoration: none;
+  }
+  .project-entry a:hover {
+    text-decoration: underline;
+  }
+
+  /* Cert list */
+  .cert-item {
+    display: inline-block;
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    margin: 3px 4px 3px 0;
+    font-size: 12px;
+    color: var(--fg);
+  }
+
+  /* Links */
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Footer */
+  .footer {
+    margin-top: 40px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    color: var(--comment);
+    font-size: 11px;
+  }
+
+  /* Typing animation for header */
+  .typing-line {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: none;
+    animation: typing 1.5s steps(60, end) forwards;
+    width: 0;
+    display: inline-block;
+  }
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  /* Color blocks (neofetch style) */
+  .color-blocks span {
+    display: inline-block;
+    width: 24px;
+    height: 12px;
+    margin-right: 2px;
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    body { font-size: 12px; }
+    .ascii-name { font-size: 6.5px; }
+    .neofetch { flex-direction: column; gap: 12px; }
+    .neofetch-art { font-size: 7px; }
+    .container { padding: 12px 14px 40px; }
+    .info-line { font-size: 12px; }
+    .git-entry { padding-left: 14px; }
+  }
+
+  @media (max-width: 440px) {
+    .ascii-name { font-size: 5px; }
+    .neofetch-art { display: none; }
+  }
+
+  /* Print */
+  @media print {
+    body::after { display: none; }
+    body { animation: none; background: #fff; color: #111; font-size: 11px; }
+    .top-bar, .theme-toggle, .print-btn { display: none; }
+    .ascii-name { color: #111; font-size: 8px; }
+    .prompt, .cmd, .flag, .info-label, .git-hash, .git-tag, .cert-item,
+    .section-header, .neofetch-art { color: #111 !important; }
+    .info-value, .git-subject, .git-body, .git-date { color: #333 !important; }
+    .divider, .comment { color: #999 !important; }
+    .git-entry { border-left-color: #999; }
+    .badge { background: #111; color: #fff; animation: none; }
+    .cursor { display: none; }
+    a { color: #111 !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="window-buttons">
+      <span class="btn-red"></span>
+      <span class="btn-yellow"></span>
+      <span class="btn-green"></span>
+      <span style="margin-left: 12px; color: var(--comment);">timothy@workstation:~/cv</span>
+    </div>
+    <div class="top-bar-right">
+      <span class="badge">OPEN VOOR NIEUWE UITDAGING</span>
+      <button class="print-btn" onclick="window.print()" title="Print CV">$ print-cv</button>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">$ toggle-theme</button>
+    </div>
+  </div>
+
+  <!-- ASCII Art Name -->
+  <div class="ascii-name" role="heading" aria-level="1" aria-label="Timothy Morgan">
+ _____ _                _   _           __  __
+|_   _(_)_ __ ___  ___ | |_| |__  _   _|  \/  | ___  _ __ __ _  __ _ _ __
+  | | | | '_ ` _ \/ _ \| __| '_ \| | | | |\/| |/ _ \| '__/ _` |/ _` | '_ \
+  | | | | | | | | | (_) | |_| | | | |_| | |  | | (_) | | | (_| | (_| | | | |
+  |_| |_|_| |_| |_|\___/ \__|_| |_|\__, |_|  |_|\___/|_|  \__, |\__,_|_| |_|
+                                    |___/                   |___/</div>
+
+  <!-- Title line -->
+  <p style="margin: 4px 0 0;">
+    <span class="prompt">$</span> <span class="cmd">whoami</span>
+  </p>
+  <p style="color: var(--white-bright); margin: 2px 0;">
+    IT System Engineer<span class="cursor"></span>
+  </p>
+  <p style="font-size: 12px; color: var(--comment); margin: 2px 0;">
+    Heerlen, Limburg, Nederland
+  </p>
+
+  <!-- Links -->
+  <p style="margin-top: 8px; font-size: 13px;">
+    <span class="prompt">$</span> <span class="cmd">cat</span> <span class="flag">~/.links</span><br>
+    <a href="https://github.com/ThaFridge" target="_blank">github.com/ThaFridge</a> &nbsp;|&nbsp;
+    <a href="https://linkedin.com/in/timothy-morgan-nl" target="_blank">linkedin.com/in/timothy-morgan-nl</a>
+  </p>
+
+  <!-- Divider -->
+  <div class="divider">════════════════════════════════════════════════════════════════════════════════</div>
+
+  <!-- Profile -->
+  <div class="section">
+    <div class="section-header">
+      <span class="prompt">$</span> <span class="cmd">cat</span> <span class="flag">~/profile.txt</span>
+    </div>
+    <p style="font-size: 13px; color: var(--white); max-width: 780px;">
+      IT System Engineer met een DevOps-mindset en een sterke focus op cloud-infrastructuur.
+      Gespecialiseerd in het end-to-end opzetten van webservers, mailservers (Postfix/Dovecot),
+      domeinconfiguratie en Cloudflare (DNS/WAF) — van concept tot productie. Bouwt
+      geautomatiseerde, veilige infrastructuren voor kleine bedrijven en startups met een
+      security-first aanpak. Gelooft in infrastructuur als code en het elimineren van
+      handmatig werk waar mogelijk.
+    </p>
+  </div>
+
+  <!-- Divider -->
+  <div class="divider">════════════════════════════════════════════════════════════════════════════════</div>
+
+  <!-- Skills as neofetch -->
+  <div class="section">
+    <div class="section-header">
+      <span class="prompt">$</span> <span class="cmd">neofetch</span> <span class="flag">--skills</span>
+    </div>
+    <div class="neofetch">
+      <div class="neofetch-art">
+        _______________
+       /              /\
+      /              /  \
+     /              /    \
+    /  ___    ___  /      \
+   /  |   |  |  |/   /\   \
+  /   |___|  |__|   /  \   \
+ /                 /    \   \
+/    Timothy M.   /  /\  \   \
+\                /  /  \  \  /
+ \              /  /    \  \/
+  \            /  /      \  \
+   \          /__/________\__\
+    \        /
+     \______/</div>
+      <div class="neofetch-info">
+        <div class="info-line"><span class="info-label">timothy@workstation</span></div>
+        <div class="info-line" style="color: var(--border);">──────────────────────</div>
+        <div class="info-line"><span class="info-label">OS:</span> <span class="info-value">Win Server 2012–2025, ADUC/GPO, Linux (Debian, RHEL), macOS</span></div>
+        <div class="info-line"><span class="info-label">Cloud &amp; Virt:</span> <span class="info-value">Citrix, VMware ESXi, Proxmox, AWS, Azure, Hyper-V</span></div>
+        <div class="info-line"><span class="info-label">Containers:</span> <span class="info-value">Docker, Docker Compose, Portainer</span></div>
+        <div class="info-line"><span class="info-label">Scripting &amp; VCS:</span> <span class="info-value">Bash, PowerShell, Git/GitHub, CI/CD Actions</span></div>
+        <div class="info-line"><span class="info-label">Networking:</span> <span class="info-value">DNS/DHCP/TCP, OPNsense/FortiGate, Cloudflare, WireGuard/VPN, Nginx, Postfix/Dovecot, Certbot/SSL, BIND/PowerDNS</span></div>
+        <div class="info-line"><span class="info-label">Monitoring &amp; IAM:</span> <span class="info-value">Zabbix, PRTG, Uptime Kuma, Active Directory, Entra ID</span></div>
+        <div class="info-line"><span class="info-label">AI &amp; Automation:</span> <span class="info-value">Flowise, AI-workers, Prompt engineering</span></div>
+        <div class="info-line"><span class="info-label">PM/Remote/Backup/Web:</span> <span class="info-value">Jira/TOPdesk, ServiceNow, RDP/SSH/RMM, Cove/Veeam, Laravel, HTML/CSS/JS, WordPress/WooCommerce</span></div>
+        <div class="info-line" style="margin-top: 8px;">
+          <div class="color-blocks">
+            <span style="background:#cc0000"></span><span style="background:#00cc00"></span><span style="background:#cccc00"></span><span style="background:#0000cc"></span><span style="background:#cc00cc"></span><span style="background:#00cccc"></span><span style="background:#cccccc"></span><span style="background:#333333"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="divider">════════════════════════════════════════════════════════════════════════════════</div>
+
+  <!-- Experience as git log -->
+  <div class="section">
+    <div class="section-header">
+      <span class="prompt">$</span> <span class="cmd">git log</span> <span class="flag">--oneline --graph ~/experience</span>
+    </div>
+
+    <div class="git-entry">
+      <div><span class="git-hash">a3f9c1e</span> <span class="git-date">(nov. 2025 – heden)</span> <span class="git-tag">HEAD</span> <span class="git-tag">Hybride</span></div>
+      <div class="git-subject">IT System Engineer — SuitIT, Eindhoven</div>
+      <div class="git-body">- Beheer van IT-infrastructuur voor diverse MKB-klanten (MSP)<br>- Projectmatig werk: migraties, implementaties en optimalisaties<br>- Monitoring, Windows Server, GPO en ticketafhandeling</div>
+    </div>
+
+    <div class="git-entry">
+      <div><span class="git-hash">b7d2e4a</span> <span class="git-date">(aug. 2021 – okt. 2025)</span> <span class="git-tag">Hybride</span></div>
+      <div class="git-subject">IT System Engineer — TP, Tilburg</div>
+      <div class="git-body">- Beheer van 40+ servers en 2.000+ eindgebruikers<br>- Virtualisatie en thin client management (Citrix, ESXi, Stratodesk/IGEL)<br>- Datacenterbeheer<br>- CVE Management &amp; Patch Management</div>
+    </div>
+
+    <div class="git-entry">
+      <div><span class="git-hash">c1a8f3b</span> <span class="git-date">(aug. 2021 – sep. 2022)</span></div>
+      <div class="git-subject">Customer Service / Client Support / IT Support Engineer — Olympia, Tilburg</div>
+      <div class="git-body">- Doorgegroeid van Customer Service naar IT Support Engineer<br>- Na detachering fulltime in dienst gekomen bij TP<br>- IT-bedrijfsprocessen en technische ondersteuning</div>
+    </div>
+
+    <div class="git-entry">
+      <div><span class="git-hash">d4e6a2c</span> <span class="git-date">(feb. 2012 – feb. 2016)</span></div>
+      <div class="git-subject">Ziggo Senior Technical Support — Teleperformance, Maastricht</div>
+      <div class="git-body">- Vraagbaak en escalatiepunt voor het team<br>- Onboarding en training van nieuwe medewerkers<br>- Technische ondersteuning voor netwerk, TV, internet en telefonie</div>
+    </div>
+
+    <div class="git-entry">
+      <div><span class="git-hash">e9b1c7f</span> <span class="git-date">(aug. 2008 – feb. 2012)</span></div>
+      <div class="git-subject">Ziggo Technical Support — Teleperformance, Maastricht</div>
+      <div class="git-body">- Technische ondersteuning voor netwerk, TV, internet en telefonie</div>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="divider">════════════════════════════════════════════════════════════════════════════════</div>
+
+  <!-- Freelance -->
+  <div class="section">
+    <div class="section-header">
+      <span class="prompt">$</span> <span class="cmd">git log</span> <span class="flag">--oneline --graph ~/freelance</span>
+    </div>
+
+    <div class="git-entry">
+      <div><span class="git-hash">f2c4d8e</span> <span class="git-date">(jan. 2025 – heden)</span> <span class="git-tag">HEAD</span> <span class="git-tag">Op afstand</span></div>
+      <div class="git-subject">Front-end Developer &amp; Webinfrastructuur Specialist — DrukHuis.com, Simpelveld</div>
+      <div class="git-body">- Opzetten van een robuuste cloudinfrastructuur die meegroeit met het platform<br>- Inrichten van web- en mailservers<br>- Deployen van Docker-based AI-workers (Flowise chatbots, prompt engineering)<br>- Focus op snelheid, stabiliteit en schaalbaarheid zonder onnodige complexiteit</div>
+    </div>
+
+    <div class="git-entry">
+      <div><span class="git-hash">a8e3b1d</span> <span class="git-date">(jul. 2018 – 2022)</span></div>
+      <div class="git-subject">Allround Assistant Event Coordinator — Neverland Festival, Landgraaf</div>
+      <div class="git-body">- Eventproductie, evenementencoördinatie en evenementmarketing</div>
+    </div>
+
+    <div class="git-entry">
+      <div><span class="git-hash">b5f7c9a</span> <span class="git-date">(mrt. 2018 – 2022)</span></div>
+      <div class="git-subject">Cloud Infrastructuur Engineer — Neverland Festival, Landgraaf</div>
+      <div class="git-body">- Blockchain, IT-servicebeheer en IT-infrastructuurbeheer</div>
+    </div>
+
+    <div class="git-entry">
+      <div><span class="git-hash">c2d6e4f</span> <span class="git-date">(2016 – 2021)</span></div>
+      <div class="git-subject">Webdevelopment &amp; Cloud Infrastructure Specialist — ZZP</div>
+      <div class="git-body">- Bouwen en onderhouden van websites en webshops voor startups en MKB (60+ klanten)<br>- WordPress/WooCommerce development en maatwerk<br>- VPS-inrichting, serverbeheer en migraties<br>- Opbouw van langdurige klantrelatie met DrukHuis.com, later uitgegroeid tot vaste opdrachtgever</div>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="divider">════════════════════════════════════════════════════════════════════════════════</div>
+
+  <!-- Projects -->
+  <div class="section">
+    <div class="section-header">
+      <span class="prompt">$</span> <span class="cmd">ls</span> <span class="flag">-la ~/projects/</span>
+    </div>
+    <div class="project-entry">
+      drwxr-xr-x  <span class="info-label">GPO Search</span> &rarr; <a href="https://thafridge.github.io/GPOSearch" target="_blank">thafridge.github.io/GPOSearch</a><br>
+      <span style="color: var(--comment); margin-left: 24px;"># Zoektool voor Group Policy Objects (GPO's)</span><br>
+      <span style="color: var(--comment); margin-left: 24px;"># Verwerkt GPMC HTML-exports met volledige tekstzoeking, 50+ filterlabels en regex</span><br>
+      <span style="color: var(--comment); margin-left: 24px;"># Single-file vanilla HTML/CSS/JS — geen dependencies</span>
+    </div>
+    <div class="project-entry" style="margin-top: 6px;">
+      drwxr-xr-x  <span class="info-label">Bash Server Manager</span> <span class="git-tag">in dev</span> &rarr; <a href="https://github.com/ThaFridge/Servermanager" target="_blank">github.com/ThaFridge/Servermanager</a><br>
+      <span style="color: var(--comment); margin-left: 24px;"># Bash-automatiseringsscript voor Ubuntu/Debian met interactieve CLI</span><br>
+      <span style="color: var(--comment); margin-left: 24px;"># Volledige LAMP-stack management: domeinen, databases, e-mail (Postfix/Dovecot), SSL, FTP</span><br>
+      <span style="color: var(--comment); margin-left: 24px;"># Cloudflare API-integratie, S3/Backblaze backups en security hardening</span>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="divider">════════════════════════════════════════════════════════════════════════════════</div>
+
+  <!-- Certifications -->
+  <div class="section">
+    <div class="section-header">
+      <span class="prompt">$</span> <span class="cmd">cat</span> <span class="flag">~/certifications.txt</span>
+    </div>
+    <div style="margin-top: 4px;">
+      <span class="cert-item">NSE 3: FortiGate 7.6 Operator</span>
+      <span class="cert-item">NSE 2: Technical Introduction to Cybersecurity 3.0</span>
+      <span class="cert-item">Fortinet Certified Associate Cybersecurity</span>
+      <span class="cert-item">Fortinet Certified Fundamentals Cybersecurity</span>
+      <span class="cert-item">IGEL Foundations</span>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="divider">════════════════════════════════════════════════════════════════════════════════</div>
+
+  <!-- Education & Languages & Other -->
+  <div class="section">
+    <div class="section-header">
+      <span class="prompt">$</span> <span class="cmd">cat</span> <span class="flag">~/misc.conf</span>
+    </div>
+    <div style="font-size: 13px;">
+      <div class="info-line"><span class="info-label">Opleiding:</span> <span class="info-value">MBO</span></div>
+      <div class="info-line"><span class="info-label">Talen:</span> <span class="info-value">Nederlands (Goed), Engels (Goed)</span></div>
+      <div class="info-line"><span class="info-label">Rijbewijs:</span> <span class="info-value">B</span></div>
+      <div class="info-line"><span class="info-label">Interesses:</span> <span class="info-value">Homelab, open-source, retrogaming, tech, Lego</span></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span class="prompt">$</span> <span class="cmd">echo</span> <span class="flag">"Einde CV"</span><br>
+    <span style="color: var(--comment);">Einde CV</span><br>
+    <span class="prompt">$</span> <span class="cursor"></span>
+  </div>
+
+</div>
+
+<script>
+  // Theme toggle
+  function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    if (current === 'light') {
+      html.removeAttribute('data-theme');
+      localStorage.setItem('cv-theme', 'dark');
+    } else {
+      html.setAttribute('data-theme', 'light');
+      localStorage.setItem('cv-theme', 'light');
+    }
+  }
+
+  // Load saved theme or detect system preference
+  (function() {
+    const saved = localStorage.getItem('cv-theme');
+    if (saved === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else if (!saved && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
+</body>
+</html>

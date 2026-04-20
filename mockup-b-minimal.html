@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timothy Morgan — IT System Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #fafaf9;
+    --bg-sidebar: #ffffff;
+    --text: #1a1a1a;
+    --text-muted: #6b7280;
+    --text-light: #9ca3af;
+    --accent: #6366f1;
+    --accent-light: #e0e0ff;
+    --border: #e5e5e5;
+    --card-bg: #ffffff;
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+    --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.06);
+    --dot-filled: #6366f1;
+    --dot-empty: #e5e5e5;
+    --timeline-line: #e5e5e5;
+    --badge-bg: #ecfdf5;
+    --badge-text: #059669;
+    --badge-dot: #10b981;
+    --tag-bg: #f3f4f6;
+    --tag-text: #4b5563;
+    --print-btn-bg: #f3f4f6;
+    --print-btn-text: #374151;
+  }
+
+  [data-theme="dark"] {
+    --bg: #18181b;
+    --bg-sidebar: #1f1f23;
+    --text: #f4f4f5;
+    --text-muted: #a1a1aa;
+    --text-light: #71717a;
+    --accent: #818cf8;
+    --accent-light: #2a2a4a;
+    --border: #2e2e33;
+    --card-bg: #27272a;
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.3);
+    --dot-filled: #818cf8;
+    --dot-empty: #3f3f46;
+    --timeline-line: #3f3f46;
+    --badge-bg: #064e3b;
+    --badge-text: #6ee7b7;
+    --badge-dot: #34d399;
+    --tag-bg: #3f3f46;
+    --tag-text: #d4d4d8;
+    --print-btn-bg: #3f3f46;
+    --print-btn-text: #e4e4e7;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .layout {
+    display: flex;
+    min-height: 100vh;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 320px;
+    min-width: 320px;
+    padding: 48px 32px;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    transition: background 0.3s, border-color 0.3s;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+  }
+
+  .sidebar h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+  }
+
+  .sidebar .title {
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: var(--badge-bg);
+    color: var(--badge-text);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 28px;
+  }
+
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--badge-dot);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  .sidebar-section {
+    margin-bottom: 28px;
+  }
+
+  .sidebar-section-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-light);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  a.contact-item:hover { color: var(--accent); }
+
+  .contact-item svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  .skill-category {
+    margin-bottom: 16px;
+  }
+
+  .skill-category-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .skill-dots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .skill-tag {
+    font-size: 11px;
+    padding: 3px 8px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border-radius: 6px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .lang-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    font-size: 13px;
+  }
+
+  .lang-dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  .lang-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--dot-empty);
+    transition: background 0.3s;
+  }
+
+  .lang-dot.filled { background: var(--dot-filled); }
+
+  /* Theme toggle */
+  .theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--tag-bg);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+  }
+
+  .theme-toggle:hover { background: var(--border); }
+  .theme-toggle svg { width: 18px; height: 18px; color: var(--text-muted); }
+  [data-theme="dark"] .icon-sun { display: block; }
+  [data-theme="dark"] .icon-moon { display: none; }
+  [data-theme="light"] .icon-sun { display: none; }
+  [data-theme="light"] .icon-moon { display: block; }
+
+  /* Print button */
+  .print-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px;
+    background: var(--print-btn-bg);
+    color: var(--print-btn-text);
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .print-btn:hover { background: var(--border); }
+  .print-btn svg { width: 16px; height: 16px; }
+
+  /* ── Main Content ── */
+  .main {
+    flex: 1;
+    padding: 56px 56px 80px;
+    max-width: 800px;
+  }
+
+  .section { margin-bottom: 56px; }
+
+  .section-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-light);
+    font-weight: 600;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .profile-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-muted);
+    max-width: 600px;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--timeline-line);
+    border-radius: 2px;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 36px;
+  }
+
+  .timeline-item:last-child { margin-bottom: 0; }
+
+  .timeline-dot {
+    position: absolute;
+    left: -28px;
+    top: 7px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    z-index: 1;
+    transition: background 0.3s;
+  }
+
+  .timeline-item:first-child .timeline-dot {
+    background: var(--accent);
+  }
+
+  .timeline-role {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .timeline-company {
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .timeline-meta {
+    font-size: 12px;
+    color: var(--text-light);
+    margin: 4px 0 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .timeline-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .timeline-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* Project cards */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: box-shadow 0.2s, border-color 0.2s, background 0.3s;
+  }
+
+  .project-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--accent);
+  }
+
+  .project-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .project-card p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .project-link {
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .project-link:hover { text-decoration: underline; }
+
+  /* Cert tags */
+  .cert-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .cert-tag {
+    padding: 6px 14px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* Other info */
+  .other-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .other-item-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .other-item-value {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 860px) {
+    .layout { flex-direction: column; }
+
+    .sidebar {
+      width: 100%;
+      min-width: 100%;
+      position: relative;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 32px 24px;
+    }
+
+    .main {
+      padding: 32px 24px 64px;
+      max-width: 100%;
+    }
+
+    .projects-grid { grid-template-columns: 1fr; }
+    .other-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { font-size: 12px; }
+    .layout { display: block; }
+    .sidebar {
+      position: relative;
+      height: auto;
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #ccc;
+      padding: 20px;
+      page-break-inside: avoid;
+    }
+    .main { padding: 20px; }
+    .theme-toggle, .print-btn { display: none !important; }
+    .project-card { break-inside: avoid; }
+    .timeline-item { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+
+    <div class="avatar">TM</div>
+    <h1>Timothy Morgan</h1>
+    <div class="title">IT System Engineer</div>
+    <div class="badge"><span class="badge-dot"></span> Open voor nieuwe uitdaging</div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Contact</div>
+      <div class="contact-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Heerlen, Limburg, Nederland
+      </div>
+      <a class="contact-item" href="https://github.com/ThaFridge" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        github.com/ThaFridge
+      </a>
+      <a class="contact-item" href="https://linkedin.com/in/timothy-morgan-nl" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        linkedin.com/in/timothy-morgan-nl
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Talen</div>
+      <div class="lang-row">
+        <span>Nederlands</span>
+        <div class="lang-dots">
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot"></span>
+        </div>
+      </div>
+      <div class="lang-row">
+        <span>Engels</span>
+        <div class="lang-dots">
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot filled"></span>
+          <span class="lang-dot"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Skills</div>
+
+      <div class="skill-category">
+        <div class="skill-category-name">OS</div>
+        <div class="skill-dots">
+          <span class="skill-tag">Windows Server 2012-2025</span>
+          <span class="skill-tag">Windows ADUC/GPO</span>
+          <span class="skill-tag">Linux (Debian, RHEL)</span>
+          <span class="skill-tag">macOS</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-category-name">Cloud & Virtualisatie</div>
+        <div class="skill-dots">
+          <span class="skill-tag">Citrix</span>
+          <span class="skill-tag">VMware ESXi</span>
+          <span class="skill-tag">Proxmox</span>
+          <span class="skill-tag">AWS / Azure</span>
+          <span class="skill-tag">Hyper-V</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-category-name">Containers</div>
+        <div class="skill-dots">
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Docker Compose</span>
+          <span class="skill-tag">Portainer</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-category-name">Scripting & Version Ctrl</div>
+        <div class="skill-dots">
+          <span class="skill-tag">Bash</span>
+          <span class="skill-tag">PowerShell</span>
+          <span class="skill-tag">Git/GitHub</span>
+          <span class="skill-tag">CI/CD Actions</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-category-name">Networking</div>
+        <div class="skill-dots">
+          <span class="skill-tag">DNS/DHCP/TCP</span>
+          <span class="skill-tag">OPNsense/FortiGate</span>
+          <span class="skill-tag">Cloudflare</span>
+          <span class="skill-tag">WireGuard/VPN</span>
+          <span class="skill-tag">Nginx</span>
+          <span class="skill-tag">Postfix/Dovecot</span>
+          <span class="skill-tag">Certbot/SSL</span>
+          <span class="skill-tag">BIND/PowerDNS</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-category-name">Monitoring & IAM</div>
+        <div class="skill-dots">
+          <span class="skill-tag">Zabbix</span>
+          <span class="skill-tag">PRTG</span>
+          <span class="skill-tag">Uptime Kuma</span>
+          <span class="skill-tag">Active Directory</span>
+          <span class="skill-tag">Entra ID</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-category-name">AI & Automation</div>
+        <div class="skill-dots">
+          <span class="skill-tag">Flowise</span>
+          <span class="skill-tag">AI-workers</span>
+          <span class="skill-tag">Prompt Engineering</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-category-name">PM & Remote & Backup & Web</div>
+        <div class="skill-dots">
+          <span class="skill-tag">Jira/TOPdesk</span>
+          <span class="skill-tag">ServiceNow</span>
+          <span class="skill-tag">RDP/SSH/RMM</span>
+          <span class="skill-tag">Cove/Veeam</span>
+          <span class="skill-tag">Laravel</span>
+          <span class="skill-tag">HTML/CSS/JS</span>
+          <span class="skill-tag">WordPress/WooCommerce</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print CV
+    </button>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <!-- Profile -->
+    <section class="section">
+      <div class="section-title">Profiel</div>
+      <p class="profile-text">IT System Engineer met een DevOps-mindset en een sterke focus op cloud-infrastructuur. Gespecialiseerd in het end-to-end opzetten van webservers, mailservers (Postfix/Dovecot), domeinconfiguratie en Cloudflare (DNS/WAF) — van concept tot productie. Bouwt geautomatiseerde, veilige infrastructuren voor kleine bedrijven en startups met een security-first aanpak. Gelooft in infrastructuur als code en het elimineren van handmatig werk waar mogelijk.</p>
+    </section>
+
+    <!-- Work Experience -->
+    <section class="section">
+      <div class="section-title">Werkervaring</div>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-role">IT System Engineer</div>
+          <div class="timeline-company">SuitIT</div>
+          <div class="timeline-meta">
+            <span>nov. 2025 – heden</span>
+            <span>Eindhoven, Hybride</span>
+          </div>
+          <div class="timeline-desc">Beheer van IT-infrastructuur voor diverse MKB-klanten (MSP). Projectmatig werk: migraties, implementaties en optimalisaties. Monitoring, Windows Server, GPO en ticketafhandeling.</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-role">IT System Engineer</div>
+          <div class="timeline-company">TP</div>
+          <div class="timeline-meta">
+            <span>aug. 2021 – okt. 2025</span>
+            <span>Tilburg, Hybride</span>
+          </div>
+          <div class="timeline-desc">Beheer van 40+ servers en 2.000+ eindgebruikers. Virtualisatie en thin client management (Citrix, ESXi, Stratodesk/IGEL). Datacenterbeheer, CVE Management & Patch Management.</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-role">Customer Service / Client Support / IT Support Engineer</div>
+          <div class="timeline-company">Olympia</div>
+          <div class="timeline-meta">
+            <span>aug. 2021 – sep. 2022</span>
+            <span>Via Olympia, gedetacheerd bij TP, Tilburg</span>
+          </div>
+          <div class="timeline-desc">Doorgegroeid van Customer Service naar IT Support Engineer. Na detachering fulltime in dienst gekomen bij TP. IT-bedrijfsprocessen en technische ondersteuning.</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-role">Ziggo Senior Technical Support</div>
+          <div class="timeline-company">Teleperformance</div>
+          <div class="timeline-meta">
+            <span>feb. 2012 – feb. 2016</span>
+            <span>Maastricht</span>
+          </div>
+          <div class="timeline-desc">Vraagbaak en escalatiepunt voor het team. Onboarding en training van nieuwe medewerkers. Technische ondersteuning voor netwerk, TV, internet en telefonie.</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-role">Ziggo Technical Support</div>
+          <div class="timeline-company">Teleperformance</div>
+          <div class="timeline-meta">
+            <span>aug. 2008 – feb. 2012</span>
+            <span>Maastricht</span>
+          </div>
+          <div class="timeline-desc">Technische ondersteuning voor netwerk, TV, internet en telefonie.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Freelance -->
+    <section class="section">
+      <div class="section-title">Freelance & Nevenprojecten</div>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-role">Front-end Developer & Webinfrastructuur Specialist</div>
+          <div class="timeline-company">DrukHuis.com</div>
+          <div class="timeline-meta">
+            <span>jan. 2025 – heden</span>
+            <span>Simpelveld, Op afstand</span>
+          </div>
+          <div class="timeline-desc">Opzetten van een robuuste cloudinfrastructuur die meegroeit met het platform. Inrichten van web- en mailservers. Deployen van Docker-based AI-workers (Flowise chatbots, prompt engineering). Focus op snelheid, stabiliteit en schaalbaarheid.</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-role">Allround Assistant Event Coordinator</div>
+          <div class="timeline-company">Neverland Festival</div>
+          <div class="timeline-meta">
+            <span>jul. 2018 – 2022</span>
+            <span>Landgraaf</span>
+          </div>
+          <div class="timeline-desc">Eventproductie, evenementencoördinatie en evenementmarketing.</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-role">Cloud Infrastructuur Engineer</div>
+          <div class="timeline-company">Neverland Festival</div>
+          <div class="timeline-meta">
+            <span>mrt. 2018 – 2022</span>
+            <span>Landgraaf</span>
+          </div>
+          <div class="timeline-desc">Blockchain, IT-servicebeheer en IT-infrastructuurbeheer.</div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-role">Webdevelopment & Cloud Infrastructure Specialist</div>
+          <div class="timeline-company">ZZP</div>
+          <div class="timeline-meta">
+            <span>2016 – 2021</span>
+          </div>
+          <div class="timeline-desc">Bouwen en onderhouden van websites en webshops voor startups en MKB (60+ klanten). WordPress/WooCommerce development, VPS-inrichting, serverbeheer en migraties. Langdurige klantrelatie met DrukHuis.com.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section">
+      <div class="section-title">Projecten</div>
+      <div class="projects-grid">
+        <div class="project-card">
+          <h3>GPO Search</h3>
+          <p>Zoektool voor Group Policy Objects. Verwerkt GPMC HTML-exports met volledige tekstzoeking, 50+ filterlabels en regex-ondersteuning. Single-file vanilla HTML/CSS/JS.</p>
+          <a class="project-link" href="https://thafridge.github.io/GPOSearch" target="_blank">
+            thafridge.github.io/GPOSearch
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+        <div class="project-card">
+          <h3>Bash Server Manager <em style="font-weight:400; font-size:12px; color:var(--text-light);">(in development)</em></h3>
+          <p>Bash-automatiseringsscript voor Ubuntu/Debian met interactieve CLI. Volledige LAMP-stack management, Cloudflare API, S3/Backblaze backups en security hardening.</p>
+          <a class="project-link" href="https://github.com/ThaFridge/Servermanager" target="_blank">
+            github.com/ThaFridge/Servermanager
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="section">
+      <div class="section-title">Certificeringen</div>
+      <div class="cert-list">
+        <span class="cert-tag">NSE 3: FortiGate 7.6 Operator</span>
+        <span class="cert-tag">NSE 2: Technical Introduction to Cybersecurity 3.0</span>
+        <span class="cert-tag">Fortinet Certified Associate — Cybersecurity</span>
+        <span class="cert-tag">Fortinet Certified Fundamentals — Cybersecurity</span>
+        <span class="cert-tag">IGEL Foundations</span>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="section">
+      <div class="section-title">Opleiding</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-role">MBO</div>
+          <div class="timeline-desc">Middelbaar beroepsonderwijs</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Other -->
+    <section class="section">
+      <div class="section-title">Overig</div>
+      <div class="other-grid">
+        <div>
+          <div class="other-item-title">Rijbewijs</div>
+          <div class="other-item-value">Rijbewijs B</div>
+        </div>
+        <div>
+          <div class="other-item-title">Interesses</div>
+          <div class="other-item-value">Homelab, open-source, (retro)gaming, tech, Lego</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  localStorage.setItem('theme', html.getAttribute('data-theme'));
+}
+
+// Load saved theme or respect system preference
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+</script>
+
+</body>
+</html>
