@@ -1,1 +1,15 @@
 .obsidian/
+brieven/
+.claude/
+CLAUDE.md
+.DS_Store
+.claude-logs/
+.claude-logs-raw/
+.claude-logs-processed/
+.claude-logs-processed-qa/
+.claude-logs-processed-qa-annotated/
+.claude-logs-processed-qa-annotated-merged/
+.claude-logs-processed-qa-annotated-merged-sampled/
+.claude-logs-processed-qa-annotated-merged-sampled-balanced/
+.claude-logs-processed-qa-annotated-merged-sampled-balanced-train/
+.claude-logs-processed-qa-annotated-merged-sampled-balanced-test/       

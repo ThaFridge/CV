@@ -212,40 +212,70 @@
             margin-bottom: 0.2rem;
         }
 
-        /* Skills */
-        .skills-grid {
+        /* Skill Bars */
+        .skills-bar-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
         }
 
-        .skill-category {
+        .skill-bar-category {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 1.25rem;
+            padding: 1rem 1.25rem;
         }
 
-        .skill-category h3 {
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            color: var(--text);
-        }
-
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-        }
-
-        .tag {
-            background: var(--tag-bg);
-            color: var(--tag-text);
-            padding: 0.25rem 0.65rem;
-            border-radius: 4px;
+        .skill-bar-category h3 {
             font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .skill-bar-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.35rem;
+        }
+
+        .skill-bar-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .skill-bar-label {
+            width: 120px;
+            flex-shrink: 0;
+            font-size: 0.7rem;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--text);
+            text-align: right;
+            padding-right: 0.6rem;
             white-space: nowrap;
+        }
+
+        .skill-bar-track {
+            flex: 1;
+            height: 14px;
+            background: #2a2d3a;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="light"] .skill-bar-track {
+            background: #dde1e8;
+        }
+
+        .skill-bar-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            border-radius: 2px;
         }
 
         /* Badges */
@@ -516,18 +546,22 @@
             }
 
             /* Skills */
-            .skills-grid {
+            .skills-bar-grid {
                 grid-template-columns: 1fr;
                 gap: 0.6rem;
             }
 
-            .skill-category {
+            .skill-bar-category {
                 padding: 0.85rem;
             }
 
-            .tag {
-                font-size: 0.75rem;
-                padding: 0.2rem 0.5rem;
+            .skill-bar-label {
+                width: 100px;
+                font-size: 0.65rem;
+            }
+
+            .skill-bar-track {
+                height: 12px;
             }
 
             /* Badges */
@@ -760,57 +794,46 @@
                 display: none;
             }
 
-            /* ── Skills: compact inline ── */
-            .skills-grid {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.25rem;
+            /* ── Skills: compact bars for print ── */
+            .skills-bar-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.2rem 0.5rem;
             }
 
-            .skill-category {
+            .skill-bar-category {
                 background: none !important;
-                border: none !important;
-                padding: 0;
-                display: inline;
+                border: 0.5pt solid #ccc !important;
+                border-radius: 3px;
+                padding: 0.2rem 0.4rem;
             }
 
-            .skill-category h3 {
-                display: inline;
-                font-size: 7.5pt;
+            .skill-bar-category h3 {
+                font-size: 7pt;
                 font-weight: 700;
-                margin: 0;
+                color: #222;
+                margin-bottom: 0.15rem;
+                font-family: 'Courier New', Courier, monospace;
+            }
+
+            .skill-bar-item {
+                margin-bottom: 0.1rem;
+            }
+
+            .skill-bar-label {
+                width: 80px;
+                font-size: 6pt;
                 color: #222;
             }
 
-            .skill-category h3::after {
-                content: ": ";
+            .skill-bar-track {
+                height: 6px;
+                background: #e0e0e0;
             }
 
-            .tags {
-                display: inline;
-            }
-
-            .tag {
-                display: inline;
-                background: none;
-                color: #444;
-                padding: 0;
-                font-size: 7.5pt;
-            }
-
-            .tag::after {
-                content: " · ";
-                color: #999;
-            }
-
-            .tag:last-child::after {
-                content: "";
-            }
-
-            .skill-category::after {
-                content: "";
-                display: block;
-                margin-bottom: 0.15rem;
+            .skill-bar-fill {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
 
             /* ── Info cards: inline ── */
@@ -838,7 +861,7 @@
             }
 
             /* ── Page flow ── */
-            .job, .skill-category, .badge-card, .info-card {
+            .job, .skill-bar-category, .badge-card, .info-card {
                 break-inside: avoid;
             }
 
@@ -1097,142 +1120,69 @@
 
         <section>
             <h2>Vaardigheden</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Besturingssystemen</h3>
-                    <div class="tags">
-                        <span class="tag">Windows Server 2012–2025</span>
-                        <span class="tag">ADUC</span>
-                        <span class="tag">GPO</span>
-                        <span class="tag">Linux (Debian/RHEL)</span>
-                        <span class="tag">macOS</span>
-                    </div>
+            <div class="skills-bar-grid">
+                <div class="skill-bar-category">
+                    <h3>OS</h3>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Win Server 12-25</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%;background:#4ade80"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Win ADUC/GPO</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:84%;background:#4ade80"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Linux Deb/RHEL</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:92%;background:#4ade80"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">macOS</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:55%;background:#4ade80"></div></div></div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-bar-category">
                     <h3>Cloud & Virtualisatie</h3>
-                    <div class="tags">
-                        <span class="tag">Citrix (on-premise)</span>
-                        <span class="tag">VMware vSphere/ESXi</span>
-                        <span class="tag">Proxmox</span>
-                        <span class="tag">AWS</span>
-                        <span class="tag">Azure</span>
-                        <span class="tag">Hyper-V</span>
-                    </div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Citrix</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:82%;background:#22d3ee"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">VMware ESXi</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:78%;background:#22d3ee"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Proxmox</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:72%;background:#22d3ee"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">AWS / Azure</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:65%;background:#22d3ee"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Hyper-V</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:58%;background:#f87171"></div><div class="skill-bar-fill" style="width:62%;background:#22d3ee;opacity:0.4"></div></div></div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-bar-category">
                     <h3>Containers</h3>
-                    <div class="tags">
-                        <span class="tag">Docker</span>
-                        <span class="tag">Docker Compose</span>
-                        <span class="tag">Portainer</span>
-                    </div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Docker</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:78%;background:#4ade80;z-index:1"></div><div class="skill-bar-fill" style="width:55%;background:#f87171;z-index:2"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Docker Compose</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:84%;background:#4ade80;z-index:1"></div><div class="skill-bar-fill" style="width:58%;background:#f87171;z-index:2"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Portainer</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:68%;background:#4ade80;z-index:1"></div><div class="skill-bar-fill" style="width:48%;background:#f87171;z-index:2"></div></div></div>
                 </div>
-                <div class="skill-category">
-                    <h3>Automatisering & Scripting</h3>
-                    <div class="tags">
-                        <span class="tag">Bash</span>
-                        <span class="tag">PowerShell</span>
-                    </div>
+                <div class="skill-bar-category">
+                    <h3>Scripting & Version Ctrl</h3>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Bash</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%;background:#22d3ee;z-index:1"></div><div class="skill-bar-fill" style="width:60%;background:#facc15;z-index:2"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">PowerShell</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%;background:#e879f9;z-index:1"></div><div class="skill-bar-fill" style="width:55%;background:#facc15;z-index:2"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Git/GitHub</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%;background:#22d3ee"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">CI/CD Actions</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:68%;background:#f87171"></div></div></div>
                 </div>
-                <div class="skill-category">
-                    <h3>Versiebeheer & CI/CD</h3>
-                    <div class="tags">
-                        <span class="tag">Git</span>
-                        <span class="tag">GitHub</span>
-                        <span class="tag">GitLab</span>
-                        <span class="tag">Gitea</span>
-                        <span class="tag">GitHub Actions</span>
-                        <span class="tag">GitLab CI</span>
-                    </div>
+                <div class="skill-bar-category">
+                    <h3>Networking</h3>
+                    <div class="skill-bar-item"><span class="skill-bar-label">DNS/DHCP/TCP</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:52%;background:#facc15"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">OPNsense/Forti</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:62%;background:#facc15"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Cloudflare</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:74%;background:#facc15"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">WireGuard/VPN</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:62%;background:#facc15"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Nginx</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:58%;background:#facc15"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Postfix/Dovecot</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:68%;background:#facc15"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Certbot/SSL</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:68%;background:#facc15"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">BIND/PowerDNS</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:50%;background:#facc15"></div></div></div>
                 </div>
-                <div class="skill-category">
-                    <h3>Netwerken</h3>
-                    <div class="tags">
-                        <span class="tag">DNS</span>
-                        <span class="tag">DHCP</span>
-                        <span class="tag">TCP/IP</span>
-                        <span class="tag">OPNsense</span>
-                        <span class="tag">FortiGate</span>
-                        <span class="tag">Cloudflare (DNS/WAF)</span>
-                        <span class="tag">WireGuard</span>
-                        <span class="tag">Nginx</span>
-                        <span class="tag">Postfix/Dovecot</span>
-                        <span class="tag">DKIM/SPF/DMARC</span>
-                        <span class="tag">Certbot/Let's Encrypt</span>
-                        <span class="tag">BIND</span>
-                        <span class="tag">PowerDNS</span>
-                    </div>
+                <div class="skill-bar-category">
+                    <h3>Monitoring & IAM</h3>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Zabbix</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%;background:#4ade80"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">PRTG</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%;background:#4ade80"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Uptime Kuma</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:78%;background:#4ade80"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Active Dir.</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%;background:#22d3ee"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Entra ID</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:58%;background:#e879f9"></div></div></div>
                 </div>
-                <div class="skill-category">
-                    <h3>Monitoring</h3>
-                    <div class="tags">
-                        <span class="tag">Zabbix</span>
-                        <span class="tag">PRTG</span>
-                        <span class="tag">Uptime Kuma</span>
-                    </div>
+                <div class="skill-bar-category">
+                    <h3>AI & Automation</h3>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Flowise</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:68%;background:#22d3ee;z-index:1"></div><div class="skill-bar-fill" style="width:45%;background:#e879f9;z-index:2"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">AI-workers</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:65%;background:#22d3ee"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Prompt Eng.</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:60%;background:#e879f9"></div></div></div>
                 </div>
-                <div class="skill-category">
-                    <h3>Identity & Access</h3>
-                    <div class="tags">
-                        <span class="tag">Active Directory</span>
-                        <span class="tag">Entra ID</span>
-                        <span class="tag">Microsoft 365</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Webdevelopment</h3>
-                    <div class="tags">
-                        <span class="tag">Laravel</span>
-                        <span class="tag">HTML</span>
-                        <span class="tag">CSS</span>
-                        <span class="tag">JavaScript</span>
-                        <span class="tag">WordPress</span>
-                        <span class="tag">WooCommerce</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>AI-integratie</h3>
-                    <div class="tags">
-                        <span class="tag">AI-workers in productie</span>
-                        <span class="tag">Flowise</span>
-                        <span class="tag">AI-gestuurde automatisering</span>
-                        <span class="tag">Prompt engineering</span>
-                        <span class="tag">LLM-tooling</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Projectmanagement & Samenwerking</h3>
-                    <div class="tags">
-                        <span class="tag">Confluence</span>
-                        <span class="tag">Jira</span>
-                        <span class="tag">TOPdesk</span>
-                        <span class="tag">ServiceNow</span>
-                        <span class="tag">Scrum/Sprints</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Remote Management</h3>
-                    <div class="tags">
-                        <span class="tag">RDP</span>
-                        <span class="tag">SSH</span>
-                        <span class="tag">MSTSC</span>
-                        <span class="tag">TeamViewer</span>
-                        <span class="tag">AnyDesk</span>
-                        <span class="tag">RMM</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Backup</h3>
-                    <div class="tags">
-                        <span class="tag">Cove Backup</span>
-                        <span class="tag">Veeam</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3>Overig</h3>
-                    <div class="tags">
-                        <span class="tag">Microsoft 365</span>
-                    </div>
+                <div class="skill-bar-category">
+                    <h3>PM & Remote & Backup & Web</h3>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Jira/TOPdesk</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%;background:#22d3ee;z-index:1"></div><div class="skill-bar-fill" style="width:55%;background:#f87171;z-index:2"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">ServiceNow</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:68%;background:#f87171"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">RDP/SSH/RMM</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%;background:#22d3ee"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Cove/Veeam</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:72%;background:#f87171"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">Laravel</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:62%;background:#f87171"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">HTML/CSS/JS</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%;background:#22d3ee"></div></div></div>
+                    <div class="skill-bar-item"><span class="skill-bar-label">WordPress/Woo</span><div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%;background:#22d3ee;z-index:1"></div><div class="skill-bar-fill" style="width:55%;background:#e879f9;z-index:2"></div></div></div>
                 </div>
             </div>
         </section>
